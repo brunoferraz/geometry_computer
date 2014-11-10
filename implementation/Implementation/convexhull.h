@@ -1,5 +1,5 @@
-#ifndef GRAHAMLIST_H
-#define GRAHAMLIST_H
+#ifndef CONVEXHULL_H
+#define CONVEXHULL_H
 
 #include <eigen3/Eigen/Dense>
 #include <QVector>
@@ -12,10 +12,10 @@
 
 using namespace std;
 using namespace Eigen;
-class GrahamList
+class ConvexHull
 {
 public:
-    GrahamList();
+    ConvexHull();
 
     QList<Vector4d> list;
     QList<Vector4d> convexHull;
@@ -27,4 +27,4 @@ public:
     void findConvexHull();
 };
 
-#endif // GRAHAMLIST_H
+#endif // CONVEXHULL_H

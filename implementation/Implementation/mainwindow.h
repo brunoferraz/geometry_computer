@@ -7,8 +7,7 @@
 #include <iostream>
 #include <QMouseEvent>
 #include <eigen3/Eigen/Dense>
-#include <grahamlist.h>
-
+#include <convexhull.h>
 using namespace Eigen;
 using namespace std;
 namespace Ui {
@@ -23,7 +22,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     Canvas *canvas;
-    GrahamList glist;
+    ConvexHull glist;
 
     void mouseReleaseEvent(QMouseEvent *ev);
 private:

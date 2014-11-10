@@ -1,12 +1,12 @@
-#include "grahamlist.h"
+#include "convexhull.h"
 
-GrahamList::GrahamList()
+ConvexHull::ConvexHull()
 {
     maxX = 0;
     maxY = 0;
 }
 
-void GrahamList::addPoint(Vector4d &p)
+void ConvexHull::addPoint(Vector4d &p)
 {
     if(!list.isEmpty()){
         if(p(0) > list.at(maxX)(0)){
@@ -17,10 +17,10 @@ void GrahamList::addPoint(Vector4d &p)
             maxY = list.length();
         }
     }
-    GrahamList::list.push_back(p);
+    ConvexHull::list.push_back(p);
 }
 
-void GrahamList::orderByAngle()
+void ConvexHull::orderByAngle()
 {
     Vector4d vb;
     vb << 1, 0, 0, 0;
@@ -46,9 +46,9 @@ void GrahamList::orderByAngle()
     maxY = 0;
 }
 
-void GrahamList::findConvexHull()
+void ConvexHull::findConvexHull()
 {
-    orderByAngle();
+        orderByAngle();
         Vector3d a;
         Vector3d b;
         convexHull.push_back(list.at(0));

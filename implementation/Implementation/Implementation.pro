@@ -15,12 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     canvas.cpp \
-    grahamlist.cpp \
-    util.cpp
+    util.cpp \
+    convexhull.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
-    grahamlist.h \
-    util.h
+    util.h \
+    convexhull.h
 
 FORMS    += mainwindow.ui

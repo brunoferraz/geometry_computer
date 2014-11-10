@@ -6,7 +6,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <eigen3/Eigen/Dense>
-#include <grahamlist.h>
+#include <convexhull.h>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPoint>
