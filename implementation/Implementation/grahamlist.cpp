@@ -49,53 +49,29 @@ void GrahamList::orderByAngle()
 void GrahamList::findConvexHull()
 {
     orderByAngle();
-    Vector3d a;
-    Vector3d b;
-    convexHull.push_back(list.at(0));
-    convexHull.push_back(list.at(1));
-    for(int i= 2; i < list.length(); i++){
+        Vector3d a;
+        Vector3d b;
+        convexHull.push_back(list.at(0));
+        convexHull.push_back(list.at(1));
+        for(int i= 1; i < list.length(); i++){
+            int nextIndex = i+1;
+            if(nextIndex>=list.length()) nextIndex = 0;
+            Vector4d next = list.at(nextIndex);
+            Vector4d current = convexHull.at(convexHull.length() -1);
+            Vector4d last = convexHull.at(convexHull.length() -2);
 
-        int nextIndex = i+1;
-        if(nextIndex>=list.length()) nextIndex = 0;
-        convexHull.push_back(list.at(nextIndex));
-
-        Vector4d next =convexHull.at(convexHull.length() -1);
-        Vector4d current = convexHull.at(convexHull.length() -2);
-        Vector4d last = convexHull.at(convexHull.length() -3);
-
-
-        double orientation = Util::orientation(last,current,next);
-//        Vector4d v;
-//        v << current(0), current(1), current(2), orientation;
-        if(orientation > 0){
-            if(convexHull.length() >2){
-                //qDebug() << orientation;
-                //orientation = Util::orientation(convexHull.at(lastPos-1),convexHull.at(lastPos),v);
-                while(orientation<0){
+            double orientation = Util::orientation(last,current,next);
+            if(orientation>0){
+                while(orientation>0){
+                    current = convexHull.at(convexHull.length() -1);
+                    last = convexHull.at(convexHull.length() -2);
+                    orientation = Util::orientation(last,current,next);
+                    if(orientation>0){
                         convexHull.pop_back();
-                        next =convexHull.at(convexHull.length() -1);
-                        current = convexHull.at(convexHull.length() -2);
-                        last = convexHull.at(convexHull.length() -3);
-                        orientation = Util::orientation(last,current,next);
-                        qDebug() << orientation;
 
-                }
+                    }
+                 }
             }
-
-
-                //orientation = Util::orientation(v,convexHull.at(lastPos),convexHull.at(lastPos-1));
-
-//                while(orientation<0){
-//                    convexHull.pop_back();
-//                    lastPos = convexHull.length() -1;
-//                    if(convexHull.length() >3){
-//                        orientation = Util::orientation(v,convexHull.at(lastPos),convexHull.at(lastPos-1));
-//                    }
-//                    if(convexHull.isEmpty()) orientation =0;
-//                    qDebug() << orientation;
-//                }
-
+            convexHull.push_back(next);
         }
-
-    }
 }
