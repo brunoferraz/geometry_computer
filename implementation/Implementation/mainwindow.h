@@ -8,6 +8,8 @@
 #include <QMouseEvent>
 #include <eigen3/Eigen/Dense>
 #include <convexhull.h>
+#include <QList>
+
 using namespace Eigen;
 using namespace std;
 namespace Ui {
@@ -23,6 +25,9 @@ public:
     ~MainWindow();
     Canvas *canvas;
     ConvexHull glist;
+    QList<Vector4d> pointList;
+    QList<Vector4d> lineList;
+    QList<QList<Vector4d>> polygonList;
 
     void mouseReleaseEvent(QMouseEvent *ev);
 private:

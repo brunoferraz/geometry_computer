@@ -9,6 +9,7 @@ Canvas::Canvas(QWidget *parent) :
 void Canvas::linkList(QList<Vector4d> &l)
 {
     pointList = &l;
+    pointList->pop_back();
     update();
 }
 void Canvas::paintEvent(QPaintEvent *ev)
@@ -24,5 +25,15 @@ void Canvas::paintEvent(QPaintEvent *ev)
             painter.drawLine(lineList->at(i-1)(0), lineList->at(i-1)(1),lineList->at(i)(0), lineList->at(i)(1));
         }
         painter.drawLine(lineList->at(lineList->length()-1)(0), lineList->at(lineList->length()-1)(1),lineList->at(0)(0), lineList->at(0)(1));
+    }
+    if(polygonList->length()>1){
+         for(int i =0; i < polygonList->length(); i++){
+            QVector<Vector4d> polygon;
+            polygon = polygonList(i);
+            for(int j=0; j<polygon.length();j++){
+                painter.drawLine(polygon->at(j-1)(0), polygon->at(j-1)(1),polygon->at(i)(0), polygon->at(j)(1));
+            }
+            painter.drawLine(polygon->at(polygon.length()-1)(0), polygon->at(polygon.length()-1)(1),polygon->at(0)(0), polygon->at(0)(1));
+         }
     }
 }
