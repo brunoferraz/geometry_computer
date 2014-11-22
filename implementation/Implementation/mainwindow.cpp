@@ -10,16 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
     canvas->pointList = &pointList;
     canvas->lineList = &lineList;
     canvas->polygonList = &polygonList;
-//    for(int i = 0; i < 50; i ++){
-//        Vector4d v;
-//        int w;
-//        w = (float(std::rand()%(this->size().width() - 100))) + 50;
-//        int h;
-//        h= (float(std::rand()%(this->size().height() - 100))) + 50;
-//        v << w, h, 0, 0;
-//        pointList.push_back(v);
-
-//    }
 }
 
 MainWindow::~MainWindow()
@@ -40,7 +30,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
 //        Vector4d v;
 //        v<< ev->pos().x(), ev->pos().y(), 0, 0;
 //        pointList.push_back(v);
-           for(int i = 0; i < 50; i ++){
+           for(int i = 0; i < 10; i ++){
                 Vector4d v;
                 int w;
                 w = (float(std::rand()%(this->size().width() - 100))) + 50;
@@ -52,13 +42,15 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
             canvas->update();
     }else if(ev->button() == Qt::RightButton){
         if(pointList.length()>=3){
-//            lineList = glist.findConvexHull(pointList);
+//            polygonList = glist.divideAndConquer(pointList);
+            lineList = glist.findConvexHull(pointList);
             polygonList = glist.divideAndConquer(pointList);
             canvas->update();
         }
     }else if(ev->button() == Qt::MiddleButton){
         pointList.clear();
         lineList.clear();
+        polygonList.clear();
         canvas->update();
     }
 }

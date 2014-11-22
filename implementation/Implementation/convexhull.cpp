@@ -74,6 +74,14 @@ QList<Vector4d> ConvexHull::orderByAngle(QList<Vector4d> &list)
     return list;
 }
 
+QList<Vector4d> ConvexHull::orderByX(QList<Vector4d> &blist)
+{
+    QList<Vector4d> list;
+    list = blist.mid(0,-1);
+    qSort(list.begin(), list.end(), Util::toAssendingVector4d_X);
+    return list;
+}
+
 QList<Vector4d> ConvexHull::findConvexHull(QList<Vector4d> &plist)
 {
         QList<Vector4d> list;
@@ -123,9 +131,36 @@ QList<Vector4d> ConvexHull::findConvexHull(QList<Vector4d> &plist)
         return convexHull;
 }
 
-QList<QList<Vector4d>> divideAndConquer(QList<Vector4d> &list)
+QList<QList<Vector4d> > ConvexHull::divideAndConquer(QList<Vector4d> &blist)
 {
-    QList<QList<Vector4d>>polygonList;
+    QList<Vector4d> list = blist.mid(0,-1);
+
+    list = orderByX(list);
+
+    QList<QList<Vector4d> > polygonList;
+    int total = list.length()/2;
+    int begin = 0;
+    int end = total;
+
+    QList<Vector4d> polygon;
+    polygon = list.mid(begin,end);
+
+//    for(int i = 0; i < polygon.length();i++){
+//        std::cout << polygon.at(i).transpose() << std::endl;
+//    }
+//    std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << std::endl;
+
+    polygon = ConvexHull::findConvexHull(polygon);
+
+    polygonList.push_back(polygon);
+    polygon.clear();
+
+    begin = end;
+    end = list.length() -1;
+
+    polygon = list.mid(begin,end);
+    polygon = ConvexHull::findConvexHull(polygon);
+    polygonList.push_back(polygon);
 
     return polygonList;
 }

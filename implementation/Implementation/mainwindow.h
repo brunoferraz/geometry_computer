@@ -27,7 +27,7 @@ public:
     ConvexHull glist;
     QList<Vector4d> pointList;
     QList<Vector4d> lineList;
-    QList<QList<Vector4d>> polygonList;
+    QList<QList<Vector4d> > polygonList;
 
     void mouseReleaseEvent(QMouseEvent *ev);
 private:

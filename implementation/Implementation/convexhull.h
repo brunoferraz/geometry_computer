@@ -24,8 +24,9 @@ public:
 
     void addPoint(Vector4d &p);
     QList<Vector4d> orderByAngle(QList<Vector4d> &list);
-    QList<Vector4d> findConvexHull(QList<Vector4d> &list);
-    QList<QList<Vector4d>> divideAndConquer(QList<Vector4d> &list);
+    QList<Vector4d> orderByX(QList<Vector4d> &blist);
+    QList<Vector4d> findConvexHull(QList<Vector4d> &plist);
+    QList<QList<Vector4d> > divideAndConquer(QList<Vector4d> &blist);
 };
 
 #endif // CONVEXHULL_H

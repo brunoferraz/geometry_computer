@@ -22,7 +22,7 @@ public:
     explicit Canvas(QWidget *parent = 0);
     QList<Vector4d> *pointList;
     QList<Vector4d> *lineList;
-    QList<QList<Vector4d>> *polygonList;
+    QList<QList<Vector4d> > *polygonList;
 
     void linkList(QList<Vector4d> &l);
 signals:
