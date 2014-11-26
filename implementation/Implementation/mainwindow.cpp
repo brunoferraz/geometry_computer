@@ -30,7 +30,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
 //        Vector4d v;
 //        v<< ev->pos().x(), ev->pos().y(), 0, 0;
 //        pointList.push_back(v);
-           for(int i = 0; i < 10; i ++){
+           for(int i = 0; i < 6; i ++){
                 Vector4d v;
                 int w;
                 w = (float(std::rand()%(this->size().width() - 100))) + 50;
@@ -42,7 +42,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
             canvas->update();
     }else if(ev->button() == Qt::RightButton){
         if(pointList.length()>=3){
-//            polygonList = glist.divideAndConquer(pointList);
+//          polygonList = glist.divideAndConquer(pointList);
             lineList = glist.findConvexHull(pointList);
             polygonList = glist.divideAndConquer(pointList);
             canvas->update();

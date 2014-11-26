@@ -20,11 +20,16 @@ class Canvas : public QWidget
     Q_OBJECT
 public:
     explicit Canvas(QWidget *parent = 0);
+
+
+
     QList<Vector4d> *pointList;
     QList<Vector4d> *lineList;
     QList<QList<Vector4d> > *polygonList;
+    QList<Vector4d> *tangents;
 
     void linkList(QList<Vector4d> &l);
+
 signals:
 
 public slots:

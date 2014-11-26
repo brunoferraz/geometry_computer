@@ -145,11 +145,6 @@ QList<QList<Vector4d> > ConvexHull::divideAndConquer(QList<Vector4d> &blist)
     QList<Vector4d> polygon;
     polygon = list.mid(begin,end);
 
-//    for(int i = 0; i < polygon.length();i++){
-//        std::cout << polygon.at(i).transpose() << std::endl;
-//    }
-//    std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << std::endl;
-
     polygon = ConvexHull::findConvexHull(polygon);
 
     polygonList.push_back(polygon);
@@ -163,4 +158,9 @@ QList<QList<Vector4d> > ConvexHull::divideAndConquer(QList<Vector4d> &blist)
     polygonList.push_back(polygon);
 
     return polygonList;
+}
+
+void ConvexHull::getTangents(QList<Vector4d> left, QList<Vector4d> right)
+{
+
 }

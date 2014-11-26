@@ -27,6 +27,8 @@ public:
     QList<Vector4d> orderByX(QList<Vector4d> &blist);
     QList<Vector4d> findConvexHull(QList<Vector4d> &plist);
     QList<QList<Vector4d> > divideAndConquer(QList<Vector4d> &blist);
+    void getTangents(QList<Vector4d> left, QList<Vector4d > right);
+
 };
 
 #endif // CONVEXHULL_H
