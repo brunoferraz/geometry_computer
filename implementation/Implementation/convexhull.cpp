@@ -160,7 +160,70 @@ QList<QList<Vector4d> > ConvexHull::divideAndConquer(QList<Vector4d> &blist)
     return polygonList;
 }
 
-void ConvexHull::getTangents(QList<Vector4d> left, QList<Vector4d> right)
+QList<Vector4d> ConvexHull::getTangents(QList<Vector4d> left, QList<Vector4d> right, QList<Vector4d > &tangentList)
 {
+    QList<Vector4d> tangWalk;
+    //findMaxMinLink
+    if(tangentList.length()<2){
+        tangWalk  =  getMaxMinLink(left, right);
+    }else{
+        tangWalk = tangentWalk(left , right, tangentList);
+    }
+    //findUpTangent
+    //findDownTangent
+    return tangWalk;
+}
 
+QList<Vector4d> ConvexHull::getMaxMinLink(QList<Vector4d> left, QList<Vector4d> right)
+{
+    int maxXLeft = 0;
+    int minXRight = 0;
+    qSort(left.begin(), left.end(), Util::toDesendingVector4d_X);
+    qSort(right.begin(), right.end(), Util::toAssendingVector4d_X);
+    Vector4d maxLeft = left.at(0);
+    Vector4d minRight = right.at(0);
+
+    QList<Vector4d> MaxMinLink;
+    MaxMinLink.push_back(maxLeft);
+    MaxMinLink.push_back(minRight);
+    return MaxMinLink;
+}
+
+QList<Vector4d> ConvexHull::tangentWalk(QList<Vector4d> left, QList<Vector4d> right, QList<Vector4d > &tangentList)
+{
+    QList<Vector4d> tangWalk;
+    QList<int> tangTop;
+    QList<int> tangBottom;
+    if(tangentList.length() <= 2){
+        //if it is the firstQuest you only have the link link
+        tangTop.push_back(left.indexOf(tangentList.at(0)));
+        tangTop.push_back(right.indexOf(tangentList.at(1)));
+        tangBottom.push_back(left.indexOf(tangentList.at(0)));
+        tangBottom.push_back(right.indexOf(tangentList.at(1)));
+    }else{
+        //now you have top and botton lines looking for tangents;
+        tangTop.push_back(left.indexOf(tangentList.at(0)));
+        tangTop.push_back(right.indexOf(tangentList.at(1)));
+        tangBottom.push_back(left.indexOf(tangentList.at(2)));
+        tangBottom.push_back(right.indexOf(tangentList.at(3)));
+    }
+    int a, vtl,vtr, b;
+    a = tangTop.at(0);
+    b = tangTop.at(1);
+    vtl = getIndexFrom(tangentList, a+1);
+    qDebug() << a;
+    qDebug() << vtl;
+    //tangWalk = tangentList;
+    //tangentList.replace(left.at(vtl),0);
+    return tangentList;
+}
+
+int ConvexHull::getIndexFrom(QList<Vector4d> &tangentList, int nextChoice)
+{
+    if(nextChoice >= tangentList.length()){
+        nextChoice = 0;
+    }else if(nextChoice<0){
+        nextChoice = tangentList.length() -1;
+    }
+    return nextChoice;
 }

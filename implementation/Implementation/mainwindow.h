@@ -9,6 +9,7 @@
 #include <eigen3/Eigen/Dense>
 #include <convexhull.h>
 #include <QList>
+#include <QKeyEvent>
 
 using namespace Eigen;
 using namespace std;
@@ -24,12 +25,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     Canvas *canvas;
+    Canvas *divConqCanvas;
     ConvexHull glist;
     QList<Vector4d> pointList;
     QList<Vector4d> lineList;
     QList<QList<Vector4d> > polygonList;
+    QList<Vector4d> tangentList;
 
     void mouseReleaseEvent(QMouseEvent *ev);
+    void keyPressEvent(QKeyEvent *ev);
+    void update();
 private:
     Ui::MainWindow *ui;
 };

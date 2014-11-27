@@ -6,12 +6,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    canvas = new Canvas(this);
-    canvas->pointList = &pointList;
-    canvas->lineList = &lineList;
-    canvas->polygonList = &polygonList;
-}
+    canvas              = new Canvas(this);
+    canvas->lineLoopWidth = 3;
+    canvas->lineLoopColor = Qt::red;
+    canvas->pointList   = &pointList;
+    canvas->lineLoopList = &lineList;
 
+    divConqCanvas       = new Canvas(this);
+    divConqCanvas->lineColor = Qt::blue;
+    divConqCanvas->lineWidth = 3;
+    divConqCanvas->polygonList = &polygonList;
+    divConqCanvas->lineList = &tangentList;
+}
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -42,10 +48,9 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
             canvas->update();
     }else if(ev->button() == Qt::RightButton){
         if(pointList.length()>=3){
-//          polygonList = glist.divideAndConquer(pointList);
             lineList = glist.findConvexHull(pointList);
             polygonList = glist.divideAndConquer(pointList);
-            canvas->update();
+            update();
         }
     }else if(ev->button() == Qt::MiddleButton){
         pointList.clear();
@@ -53,4 +58,19 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
         polygonList.clear();
         canvas->update();
     }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *ev)
+{
+    if(ev->key()== Qt::Key_Space){
+        tangentList = glist.getTangents(polygonList.at(0), polygonList.at(1), tangentList);
+        update();
+    };
+}
+
+void MainWindow::update()
+{
+    canvas->update();
+    divConqCanvas->update();
+    QMainWindow::update();
 }

@@ -17,18 +17,16 @@ class ConvexHull
 public:
     ConvexHull();
 
-//    QList<Vector4d> list;
-//    QList<Vector4d> convexHull;
-//    int maxY;
-//    int maxX;
-
     void addPoint(Vector4d &p);
     QList<Vector4d> orderByAngle(QList<Vector4d> &list);
     QList<Vector4d> orderByX(QList<Vector4d> &blist);
     QList<Vector4d> findConvexHull(QList<Vector4d> &plist);
     QList<QList<Vector4d> > divideAndConquer(QList<Vector4d> &blist);
-    void getTangents(QList<Vector4d> left, QList<Vector4d > right);
+    QList<Vector4d> getTangents(QList<Vector4d> left, QList<Vector4d > right, QList<Vector4d > &tangentList);
+    QList<Vector4d> getMaxMinLink(QList<Vector4d> left, QList<Vector4d > right);
+    QList<Vector4d> tangentWalk(QList<Vector4d> left, QList<Vector4d > right, QList<Vector4d > &tangentList);
 
+    static int getIndexFrom(QList<Vector4d> &tangentList, int nextChoice);
 };
 
 #endif // CONVEXHULL_H

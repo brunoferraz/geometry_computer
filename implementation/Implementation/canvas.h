@@ -21,12 +21,28 @@ class Canvas : public QWidget
 public:
     explicit Canvas(QWidget *parent = 0);
 
+    static const int POINT          = 0;
+    static const int LINE           = 1;
+    static const int POLYGON        = 2;
+    static const int POLYGON_LIST   = 3;
 
+    int canvasMode;
+    QColor pointColor;
+    QColor lineColor;
+    QColor lineLoopColor;
+    QColor shapeColor;
+
+    QColor polygonColor;
+
+    int pointWidth;
+    int lineWidth;
+    int lineLoopWidth;
+    int polygonWidth;
 
     QList<Vector4d> *pointList;
     QList<Vector4d> *lineList;
+    QList<Vector4d> *lineLoopList;
     QList<QList<Vector4d> > *polygonList;
-    QList<Vector4d> *tangents;
 
     void linkList(QList<Vector4d> &l);
 
