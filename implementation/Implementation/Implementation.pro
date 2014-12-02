@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     canvas.cpp \
     util.cpp \
-    convexhull.cpp
+    convexhull.cpp \
+    polygon.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
     util.h \
-    convexhull.h
+    convexhull.h \
+    polygon.h
 
 FORMS    += mainwindow.ui

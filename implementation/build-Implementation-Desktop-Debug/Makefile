@@ -49,13 +49,15 @@ SOURCES       = ../Implementation/main.cpp \
 		../Implementation/mainwindow.cpp \
 		../Implementation/canvas.cpp \
 		../Implementation/util.cpp \
-		../Implementation/convexhull.cpp moc_mainwindow.cpp \
+		../Implementation/convexhull.cpp \
+		../Implementation/polygon.cpp moc_mainwindow.cpp \
 		moc_canvas.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		canvas.o \
 		util.o \
 		convexhull.o \
+		polygon.o \
 		moc_mainwindow.o \
 		moc_canvas.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -292,7 +294,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/Implementation1.0.0 || mkdir -p .tmp/Implementation1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/Implementation1.0.0/ && $(COPY_FILE) --parents ../Implementation/mainwindow.h ../Implementation/canvas.h ../Implementation/util.h ../Implementation/convexhull.h .tmp/Implementation1.0.0/ && $(COPY_FILE) --parents ../Implementation/main.cpp ../Implementation/mainwindow.cpp ../Implementation/canvas.cpp ../Implementation/util.cpp ../Implementation/convexhull.cpp .tmp/Implementation1.0.0/ && $(COPY_FILE) --parents ../Implementation/mainwindow.ui .tmp/Implementation1.0.0/ && (cd `dirname .tmp/Implementation1.0.0` && $(TAR) Implementation1.0.0.tar Implementation1.0.0 && $(COMPRESS) Implementation1.0.0.tar) && $(MOVE) `dirname .tmp/Implementation1.0.0`/Implementation1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/Implementation1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/Implementation1.0.0/ && $(COPY_FILE) --parents ../Implementation/mainwindow.h ../Implementation/canvas.h ../Implementation/util.h ../Implementation/convexhull.h ../Implementation/polygon.h .tmp/Implementation1.0.0/ && $(COPY_FILE) --parents ../Implementation/main.cpp ../Implementation/mainwindow.cpp ../Implementation/canvas.cpp ../Implementation/util.cpp ../Implementation/convexhull.cpp ../Implementation/polygon.cpp .tmp/Implementation1.0.0/ && $(COPY_FILE) --parents ../Implementation/mainwindow.ui .tmp/Implementation1.0.0/ && (cd `dirname .tmp/Implementation1.0.0` && $(TAR) Implementation1.0.0.tar Implementation1.0.0 && $(COMPRESS) Implementation1.0.0.tar) && $(MOVE) `dirname .tmp/Implementation1.0.0`/Implementation1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/Implementation1.0.0
 
 
 clean:compiler_clean 
@@ -432,15 +434,19 @@ moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		../Implementation/canvas.h \
 		/usr/include/qt5/QtWidgets/QWidget \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		../Implementation/convexhull.h \
+		/usr/include/qt5/QtCore/QVector \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/QtAlgorithms \
+		../Implementation/util.h \
 		/usr/include/qt5/QtGui/QPaintEvent \
 		/usr/include/qt5/QtGui/QPainter \
 		/usr/include/qt5/QtGui/qpainter.h \
 		/usr/include/qt5/QtGui/qtextoption.h \
 		/usr/include/qt5/QtGui/qpen.h \
 		/usr/include/qt5/QtCore/QPoint \
-		/usr/include/qt5/QtCore/QVector \
-		/usr/include/qt5/QtCore/QList \
-		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtGui/QKeyEvent \
 		../Implementation/mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Implementation/mainwindow.h -o moc_mainwindow.cpp
 
@@ -553,15 +559,18 @@ moc_canvas.cpp: /usr/include/qt5/QtWidgets/QWidget \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		../Implementation/convexhull.h \
+		/usr/include/qt5/QtCore/QVector \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/QtAlgorithms \
+		../Implementation/util.h \
 		/usr/include/qt5/QtGui/QPaintEvent \
 		/usr/include/qt5/QtGui/QPainter \
 		/usr/include/qt5/QtGui/qpainter.h \
 		/usr/include/qt5/QtGui/qtextoption.h \
 		/usr/include/qt5/QtGui/qpen.h \
 		/usr/include/qt5/QtCore/QPoint \
-		/usr/include/qt5/QtCore/QVector \
-		/usr/include/qt5/QtCore/QList \
-		/usr/include/qt5/QtCore/QDebug \
 		../Implementation/canvas.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Implementation/canvas.h -o moc_canvas.cpp
 
@@ -698,15 +707,19 @@ main.o: ../Implementation/main.cpp ../Implementation/mainwindow.h \
 		../Implementation/canvas.h \
 		/usr/include/qt5/QtWidgets/QWidget \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		../Implementation/convexhull.h \
+		/usr/include/qt5/QtCore/QVector \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/QtAlgorithms \
+		../Implementation/util.h \
 		/usr/include/qt5/QtGui/QPaintEvent \
 		/usr/include/qt5/QtGui/QPainter \
 		/usr/include/qt5/QtGui/qpainter.h \
 		/usr/include/qt5/QtGui/qtextoption.h \
 		/usr/include/qt5/QtGui/qpen.h \
 		/usr/include/qt5/QtCore/QPoint \
-		/usr/include/qt5/QtCore/QVector \
-		/usr/include/qt5/QtCore/QList \
-		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtGui/QKeyEvent \
 		/usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
 		/usr/include/qt5/QtCore/qcoreapplication.h \
@@ -831,15 +844,19 @@ mainwindow.o: ../Implementation/mainwindow.cpp ../Implementation/mainwindow.h \
 		../Implementation/canvas.h \
 		/usr/include/qt5/QtWidgets/QWidget \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		../Implementation/convexhull.h \
+		/usr/include/qt5/QtCore/QVector \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/QtAlgorithms \
+		../Implementation/util.h \
 		/usr/include/qt5/QtGui/QPaintEvent \
 		/usr/include/qt5/QtGui/QPainter \
 		/usr/include/qt5/QtGui/qpainter.h \
 		/usr/include/qt5/QtGui/qtextoption.h \
 		/usr/include/qt5/QtGui/qpen.h \
 		/usr/include/qt5/QtCore/QPoint \
-		/usr/include/qt5/QtCore/QVector \
-		/usr/include/qt5/QtCore/QList \
-		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtGui/QKeyEvent \
 		ui_mainwindow.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QAction \
@@ -990,18 +1007,62 @@ canvas.o: ../Implementation/canvas.cpp ../Implementation/canvas.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		../Implementation/convexhull.h \
+		/usr/include/qt5/QtCore/QVector \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/QtAlgorithms \
+		../Implementation/util.h \
 		/usr/include/qt5/QtGui/QPaintEvent \
 		/usr/include/qt5/QtGui/QPainter \
 		/usr/include/qt5/QtGui/qpainter.h \
 		/usr/include/qt5/QtGui/qtextoption.h \
 		/usr/include/qt5/QtGui/qpen.h \
-		/usr/include/qt5/QtCore/QPoint \
-		/usr/include/qt5/QtCore/QVector \
-		/usr/include/qt5/QtCore/QList \
-		/usr/include/qt5/QtCore/QDebug
+		/usr/include/qt5/QtCore/QPoint
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o canvas.o ../Implementation/canvas.cpp
 
-util.o: ../Implementation/util.cpp ../Implementation/util.h
+util.o: ../Implementation/util.cpp ../Implementation/util.h \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qrefcount.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o util.o ../Implementation/util.cpp
 
 convexhull.o: ../Implementation/convexhull.cpp ../Implementation/convexhull.h \
@@ -1084,6 +1145,50 @@ convexhull.o: ../Implementation/convexhull.cpp ../Implementation/convexhull.h \
 		/usr/include/qt5/QtCore/QtAlgorithms \
 		../Implementation/util.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o convexhull.o ../Implementation/convexhull.cpp
+
+polygon.o: ../Implementation/polygon.cpp ../Implementation/polygon.h \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qrefcount.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o polygon.o ../Implementation/polygon.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

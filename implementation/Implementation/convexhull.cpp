@@ -128,6 +128,7 @@ QList<Vector4d> ConvexHull::findConvexHull(QList<Vector4d> &plist)
             }
             convexHull.push_back(next);
         }
+        convexHull.pop_back();
         return convexHull;
 }
 
@@ -156,7 +157,6 @@ QList<QList<Vector4d> > ConvexHull::divideAndConquer(QList<Vector4d> &blist)
     polygon = list.mid(begin,end);
     polygon = ConvexHull::findConvexHull(polygon);
     polygonList.push_back(polygon);
-
     return polygonList;
 }
 
@@ -167,10 +167,9 @@ QList<Vector4d> ConvexHull::getTangents(QList<Vector4d> left, QList<Vector4d> ri
     if(tangentList.length()<2){
         tangWalk  =  getMaxMinLink(left, right);
     }else{
-        tangWalk = tangentWalk(left , right, tangentList);
+        tangWalk = tangentStep(left , right, tangentList);
+        //qDebug()<< " dfdsffdsfsd  <<" << tangentWalkEnds(tangentList,tangWalk);
     }
-    //findUpTangent
-    //findDownTangent
     return tangWalk;
 }
 
@@ -189,9 +188,9 @@ QList<Vector4d> ConvexHull::getMaxMinLink(QList<Vector4d> left, QList<Vector4d> 
     return MaxMinLink;
 }
 
-QList<Vector4d> ConvexHull::tangentWalk(QList<Vector4d> left, QList<Vector4d> right, QList<Vector4d > &tangentList)
+QList<Vector4d> ConvexHull::tangentStep(QList<Vector4d> left, QList<Vector4d> right, QList<Vector4d > &tangentList)
 {
-    QList<Vector4d> tangWalk;
+    QList<Vector4d> tangStep;
     QList<int> tangTop;
     QList<int> tangBottom;
     if(tangentList.length() <= 2){
@@ -207,23 +206,157 @@ QList<Vector4d> ConvexHull::tangentWalk(QList<Vector4d> left, QList<Vector4d> ri
         tangBottom.push_back(left.indexOf(tangentList.at(2)));
         tangBottom.push_back(right.indexOf(tangentList.at(3)));
     }
+
     int a, vtl,vtr, b;
+
+    //SEARCH TOP TANGENT
     a = tangTop.at(0);
     b = tangTop.at(1);
-    vtl = getIndexFrom(tangentList, a+1);
-    qDebug() << a;
-    qDebug() << vtl;
-    //tangWalk = tangentList;
-    //tangentList.replace(left.at(vtl),0);
+    vtl = getIndexFrom(left, a+1);
+    vtr = getIndexFrom(right, b-1);
+    if(Util::orientation(left.at(a), left.at(vtl),right.at(b))>0)
+    {
+        a = vtl;
+    }
+    if(Util::orientation(left.at(a), right.at(b), right.at(vtr))<0)
+    {
+        b = vtr;
+    }
+    tangStep.push_back(left.at(a));
+    tangStep.push_back(right.at(b));
+
+    //SEARCH BOTTOM TANGENT
+    a = tangBottom.at(0);
+    b = tangBottom.at(1);
+    vtl = getIndexFrom(left, a-1);
+    vtr = getIndexFrom(right, b+1);
+    if(Util::orientation(left.at(a), left.at(vtl),right.at(b))<0)
+    {
+        a = vtl;
+    }
+    if(Util::orientation(left.at(a), right.at(b), right.at(vtr))>0)
+    {
+        b = vtr;
+    }
+    tangStep.push_back(left.at(a));
+    tangStep.push_back(right.at(b));
+    return tangStep;
+}
+
+QList<Vector4d> ConvexHull::tangentWalk(QList<Vector4d> left, QList<Vector4d> right, QList<Vector4d> &tangentList)
+{
+    QList<Vector4d> tangWalk = tangentStep(left, right, tangentList);
+    while(!tangentWalkEnds(tangWalk, tangentList))
+    {
+        tangentList = tangWalk;
+        tangWalk = tangentStep(left, right, tangentList);
+    }
     return tangentList;
 }
 
-int ConvexHull::getIndexFrom(QList<Vector4d> &tangentList, int nextChoice)
+bool ConvexHull::tangentWalkEnds(QList<Vector4d> &lastTangentList, QList<Vector4d> &nextTangentList)
 {
-    if(nextChoice >= tangentList.length()){
+    bool answer = true;
+    if(lastTangentList.length()!=nextTangentList.length()){
+        answer = false;
+    }else{
+        for(int i = 0; i < lastTangentList.length(); i++)
+        {
+            for(int j=0; j <lastTangentList.at(i).rows(); j++){
+                if(lastTangentList.at(i)(j)!=nextTangentList.at(i)(j)){
+                    answer= false;
+                }
+            }
+        }
+    }
+    return answer;
+}
+
+QList<Vector4d> ConvexHull::divConqConvexHull(QList<Vector4d> &plist)
+{
+    QList<QList<Vector4d> > polygonList = divideAndConquer(plist);
+    QList<QList<Vector4d> > polyEnd = polygonList;
+    while (polyEnd.at(0).length()>6) {
+        polyEnd.clear();
+        for(int i = 0; i < polygonList.length(); i ++){
+            QList<Vector4d> poly = polygonList.at(i);
+            QList<QList<Vector4d> > polyTemp = divideAndConquer(poly);
+            for(int j=0; j < polyTemp.length(); j++){
+                polyEnd.push_back(polyTemp.at(j));
+            }
+        }
+        polygonList.clear();
+        polygonList = polyEnd;
+    }
+    QList<QList<Vector4d> > newPolyList;
+//    while(polygonList.length()>=2){
+//        for(int i = 0; i < polygonList.length()-2; i +=2){
+//            newPolyList.push_back(joinPolygons(polygonList.at(i), polygonList.at(i+1)));
+//        }
+//        polygonList = newPolyList;
+//        newPolyList.clear();
+//    }
+    newPolyList.push_back(joinPolygons(polygonList.at(0),polygonList.at(1)));
+    return newPolyList.at(0);
+}
+
+QList<Vector4d> ConvexHull::joinPolygons(QList<Vector4d> left, QList<Vector4d> right)
+{
+//    QList<Vector4d> tangents;
+//    tangents = getTangents(left, right, tangents);
+//    tangents = tangentWalk(left, right, tangents);
+//    std::cout << "left" << std::endl;
+//    Util::print_QListVector4d(left);
+//    std::cout << "right" << std::endl;
+//    Util::print_QListVector4d(right);
+//    std::cout << "tangents" << std::endl;
+//    Util::print_QListVector4d(tangents);
+
+//    int indexBottomLeft     = left.indexOf(tangents.at(0));
+//    int indexBottomRight    = right.indexOf(tangents.at(1));
+//    int indexTopLeft        = left.indexOf(tangents.at(2));
+//    int indexTopRight       = right.indexOf(tangents.at(3));
+
+//    qDebug() << indexBottomLeft;
+//    qDebug() << indexBottomRight;
+//    qDebug() << indexTopLeft;
+//    qDebug() << indexTopRight;
+
+//    QList<Vector4d> hull;
+//    hull.push_back(left.at(indexBottomLeft));
+//    int index = getIndexFrom(right, indexBottomRight);
+//    //percorrer o direito do bottom ate o up.
+//    while(index != indexTopRight){
+//        hull.push_back(right.at(index));
+//        index = getIndexFrom(right, index -1);
+//    }
+//    //percorrer o esquerdo do up ate o bottom
+//    hull.push_back(right.at(indexTopRight));
+//    //hull.push_back(left.at(indexTopLeft));
+//    index = indexTopLeft;
+//    index = getIndexFrom(left, index);
+//    while(index!= indexBottomLeft){
+//        hull.push_back(left.at(index));
+//        index = getIndexFrom(left, index +1);
+//    }
+//    std::cout << "POLIGONO   <<<>>>" << std::endl;
+
+
+//    Util::print_QListVector4d(hull);
+    QList<Vector4d> tangents;
+    tangents = getTangents(left, right, tangents);
+    tangents = tangentWalk(left, right, tangents);
+
+    return tangents;
+}
+
+int ConvexHull::getIndexFrom(QList<Vector4d> &polygonList, int nextChoice)
+{
+    if(nextChoice >= polygonList.length()){
         nextChoice = 0;
-    }else if(nextChoice<0){
-        nextChoice = tangentList.length() -1;
+    }
+    if(nextChoice<0){
+        nextChoice = polygonList.length()-2;
     }
     return nextChoice;
 }

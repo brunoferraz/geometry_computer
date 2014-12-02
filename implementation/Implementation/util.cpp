@@ -58,3 +58,12 @@ double Util::orientation(const Vector4d &first, const Vector4d &second, const Ve
     Vector3d opVec = a.cross(b);
     return opVec(2);
 }
+
+void Util::print_QListVector4d(const QList<Vector4d> &v)
+{
+
+    for(int i = 0; i < v.length(); i++){
+        std::cout << v.at(i).transpose() << std::endl;
+    }
+
+}

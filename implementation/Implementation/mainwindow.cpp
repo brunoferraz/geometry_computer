@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     divConqCanvas->lineWidth = 3;
     divConqCanvas->polygonList = &polygonList;
     divConqCanvas->lineList = &tangentList;
+
+   Polygon poly();
 }
 MainWindow::~MainWindow()
 {
@@ -45,6 +47,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
                 v << w, h, 0, 0;
                 pointList.push_back(v);
             }
+            tangentList.clear();
             canvas->update();
     }else if(ev->button() == Qt::RightButton){
         if(pointList.length()>=3){
@@ -56,6 +59,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
         pointList.clear();
         lineList.clear();
         polygonList.clear();
+        tangentList.clear();
         canvas->update();
     }
 }
@@ -64,8 +68,20 @@ void MainWindow::keyPressEvent(QKeyEvent *ev)
 {
     if(ev->key()== Qt::Key_Space){
         tangentList = glist.getTangents(polygonList.at(0), polygonList.at(1), tangentList);
-        update();
-    };
+    }else if(ev->key() == Qt::Key_Z){
+        if(pointList.length()>=3){
+            lineList = glist.findConvexHull(pointList);
+            polygonList = glist.divideAndConquer(pointList);
+            update();
+        }
+    }else if(ev->key() == Qt::Key_X){
+         if(polygonList.length()>0){
+                tangentList = glist.getTangents(polygonList.at(0), polygonList.at(1), tangentList);
+                tangentList = glist.tangentWalk(polygonList.at(0), polygonList.at(1), tangentList);
+         }
+        //tangentList = glist.divConqConvexHull(pointList);
+    }
+    update();
 }
 
 void MainWindow::update()

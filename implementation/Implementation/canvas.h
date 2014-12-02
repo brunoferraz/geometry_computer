@@ -35,6 +35,7 @@ public:
     QColor polygonColor;
 
     int pointWidth;
+    int pointSize;
     int lineWidth;
     int lineLoopWidth;
     int polygonWidth;

@@ -10,6 +10,7 @@
 #include <convexhull.h>
 #include <QList>
 #include <QKeyEvent>
+#include <polygon.h>
 
 using namespace Eigen;
 using namespace std;

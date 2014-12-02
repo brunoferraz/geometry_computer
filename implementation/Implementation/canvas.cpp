@@ -11,6 +11,7 @@ Canvas::Canvas(QWidget *parent) :
     pointColor  = Qt::black;
 
     pointWidth      = 1;
+    pointSize       = 2;
     lineWidth       = 1;
     polygonWidth    = 1;
 
@@ -36,7 +37,7 @@ void Canvas::paintEvent(QPaintEvent *ev)
         pen.setColor(pointColor);
         painter.setPen(pen);
         for(int i =0; i < pointList->length(); i++){
-            painter.drawEllipse(QPoint(pointList->at(i)(0), pointList->at(i)(1)), 5, 5);
+            painter.drawEllipse(QPoint(pointList->at(i)(0), pointList->at(i)(1)), pointSize, pointSize);
         }
     }
     //DRAW LINE LIST;
@@ -57,6 +58,7 @@ void Canvas::paintEvent(QPaintEvent *ev)
         for(int i =1; i < lineLoopList->length(); i++){
             painter.drawLine(lineLoopList->at(i-1)(0), lineLoopList->at(i-1)(1),lineLoopList->at(i)(0), lineLoopList->at(i)(1));
         }
+        painter.drawLine(lineLoopList->at(lineLoopList->length()-1)(0), lineLoopList->at(lineLoopList->length()-1)(1),lineLoopList->at(0)(0), lineLoopList->at(0)(1));
     }
     //DRAW POLYGON LIST;
     if(polygonList->length()>1){
