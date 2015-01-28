@@ -17,8 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     divConqCanvas->lineWidth = 3;
     divConqCanvas->polygonList = &polygonList;
     divConqCanvas->lineList = &tangentList;
-
-   Polygon poly();
 }
 MainWindow::~MainWindow()
 {
