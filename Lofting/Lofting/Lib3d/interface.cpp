@@ -50,6 +50,7 @@ void Interface::start(int w, int h)
 //    view.setViewPort(ViewManager::PERSPECTIVE);
     view.setViewPort(ViewManager::TOP);
 //    view.setViewPort(ViewManager::LEFT);
+    tool.start();
     setCurrentDisplayList(displayList);
     setCurrentSelectList(displayList);
     selectionTransform <<   1,  0,  0,  0,
@@ -171,3 +172,4 @@ QList<AbstractObj *> *Interface::currentDisplayList;
 QList<AbstractObj *> *Interface::currentSelectList;
 Eigen::Matrix4f *Interface::currentSelectionTransform;
 Eigen::Matrix4f Interface::selectionTransform;
+Ui::MainWindow *Interface::ui;

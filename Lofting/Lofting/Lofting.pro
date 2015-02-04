@@ -44,7 +44,10 @@ SOURCES += main.cpp\
     Lib3d/View/viewportortotop.cpp \
     Lib3d/View/viewportortoleft.cpp \
     Lib3d/Display/Primitives/line.cpp \
-    Lib3d/Modifiers/abstractmodifier.cpp
+    Lib3d/Modifiers/abstractmodifier.cpp \
+    Lib3d/Tools/rotatetool.cpp \
+    Lib3d/Tools/scaletool.cpp \
+    Lib3d/Tools/lofttool.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -72,7 +75,10 @@ HEADERS  += mainwindow.h \
     Lib3d/View/viewportortotop.h \
     Lib3d/View/viewportortoleft.h \
     Lib3d/Display/Primitives/line.h \
-    Lib3d/Modifiers/abstractmodifier.h
+    Lib3d/Modifiers/abstractmodifier.h \
+    Lib3d/Tools/rotatetool.h \
+    Lib3d/Tools/scaletool.h \
+    Lib3d/Tools/lofttool.h
 
 
 

@@ -16,6 +16,8 @@ public:
 
     AbstractObj *target;
 
+    void start();
+
     bool hasTarget();
     void setTarget(AbstractObj &o);
     void deselect();

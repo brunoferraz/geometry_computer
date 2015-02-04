@@ -24,14 +24,12 @@ typedef Polyhedron::Halfedge_around_facet_circulator    Halfedge_facet_circulato
 
 typedef Polyhedron::Vertex_iterator                     Vertex_iterator;
 
-struct Plane_from_facet {
-    Polyhedron::Plane_3 operator()(Polyhedron::Facet& f) {
+inline Polyhedron::Plane_3 plane_from_facet(Polyhedron::Facet& f) {
     Polyhedron::Halfedge_handle h = f.halfedge();
     return Polyhedron::Plane_3( 	h->vertex()->point(),
                                     h->next()->vertex()->point(),
                                     h->opposite()->vertex()->point());
-    }
-};
+}
 
 class BasicGeometry : public AbstractObj
 {

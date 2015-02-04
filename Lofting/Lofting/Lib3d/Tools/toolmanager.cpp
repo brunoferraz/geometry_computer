@@ -4,23 +4,34 @@
 #include <Tools/cameratool.h>
 #include <Tools/drawtool.h>
 #include <Tools/translatetool.h>
+#include <Tools/rotatetool.h>
+#include <Tools/scaletool.h>
+#include <Tools/lofttool.h>
 
 #include <interface.h>
 #include <Io/mouse.h>
 
 ToolManager::ToolManager()
 {
-    hasSelected = false;
-    list.push_back(new SelectTool());
-    list.push_back(new CameraTool());
-    list.push_back(new DrawTool());
-    list.push_back(new TranslateTool());
-    setTool(Tool::DRAW);
+
 }
 
 void ToolManager::setTool(const int i)
 {
     currentTool = list.at(i);
+}
+
+void ToolManager::start()
+{
+    hasSelected = false;
+    list.push_back(new SelectTool());
+    list.push_back(new CameraTool());
+    list.push_back(new DrawTool());
+    list.push_back(new TranslateTool());
+    list.push_back(new RotateTool());
+    list.push_back(new ScaleTool());
+    list.push_back(new LoftTool());
+    setTool(Tool::SELECT);
 }
 
 bool ToolManager::hasTarget()

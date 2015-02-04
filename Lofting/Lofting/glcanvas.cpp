@@ -3,7 +3,7 @@
 #include <Io/mouse.h>
 #include <Lib3d/interface.h>
 #include <Display/UiElements/grid.h>
-//#include <Loft/Display/line.h>
+#include <Display/Primitives/line.h>
 
 GLcanvas::GLcanvas(QWidget *parent) :
     QGLWidget(parent)
@@ -17,19 +17,36 @@ GLcanvas::GLcanvas(QWidget *parent) :
     a->setPos(0, 0, 0);
     a->color << 1, 0, 1, 1;
     a->shininess = 20;
-    Interface::addChild(*a);
+    //Interface::addChild(*a);
 
     Tetrahedron *b = new Tetrahedron(this);
     b->setPos(0.5, 0, 0.5);
     b->color << 1, 0.5, 0, 1;
     b->shininess = 20;
-    Interface::addChild(*b);
+    //Interface::addChild(*b);
 
-//    Line *l = new Line(this);
-//    l->addVertex(0, 0, 0);
-//    l->addVertex(-1, 0, 0);
-//    l->addVertex(0, 0, -1);
-//    Interface::addChild(*l);
+    Line *l = new Line();
+    l->addVertexf(-1,0,0.5);
+    l->addVertexf(-1,0.5,-1);
+    l->addVertexf(-1,1,0);
+    l->finishIncremental();
+    l->color << 1, 0, 0, 1;
+    Interface::addChild(*l);
+
+    l = new Line();
+    l->addVertexf(1,0,0.5);
+    l->addVertexf(1,0.5,-1);
+    l->addVertexf(1,1,0);
+    l->finishIncremental();
+    l->color << 1, 1, 0, 1;
+    Interface::addChild(*l);
+
+    l = new Line();
+    l->addVertexf(-0.5,0,0);
+    l->addVertexf(0.5,0,0);
+    l->finishIncremental();
+    l->color << 1, 0, 1, 1;
+    Interface::addChild(*l);
 
 }
 void GLcanvas::initializeGL()

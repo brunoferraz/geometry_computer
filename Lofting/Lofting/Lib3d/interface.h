@@ -4,6 +4,7 @@
 #include <Tools/toolmanager.h>
 #include <glcanvas.h>
 #include <QDebug>
+#include <ui_mainwindow.h>
 
 class Interface
 {
@@ -17,6 +18,7 @@ public:
 
     static ViewManager view;
     static ToolManager tool;
+    static Ui::MainWindow *ui;
 
     static int _renderMode;
     static void setRenderMode(int i);

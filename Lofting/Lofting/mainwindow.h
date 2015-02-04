@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 #include <Io/keyboard.h>
+#include <QButtonGroup>
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +19,11 @@ public:
     ~MainWindow();
     void keyPressEvent(QKeyEvent *ev);
     void keyReleaseEvent(QKeyEvent *ev);
+    QButtonGroup buttonGroupBasic;
+
+private slots:
+    void on_tabWidget_currentChanged(int index);
+    void basicButtonClicked(int i);
 
 private:
     Ui::MainWindow *ui;

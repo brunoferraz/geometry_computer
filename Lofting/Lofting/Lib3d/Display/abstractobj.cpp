@@ -104,6 +104,12 @@ void AbstractObj::setPos(float _x, float _y, float _z)
     transform(1, 3) = _y;
     transform(2, 3) = _z;
 }
+void AbstractObj::setPos(Eigen::Vector3f v)
+{
+    transform(0, 3) = v(0);
+    transform(1, 3) = v(1);
+    transform(2, 3) = v(2);
+}
 
 float AbstractObj::getX()
 {

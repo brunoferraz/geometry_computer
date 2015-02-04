@@ -48,6 +48,7 @@ public:
     virtual void namePolyhedron();
 
     virtual void setPos(float _x, float _y, float _z);
+    virtual void setPos(Eigen::Vector3f v);
     float getX();
     float getY();
     float getZ();

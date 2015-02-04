@@ -5,6 +5,7 @@ class AbstractModifier
 {
 public:
     AbstractModifier();
+
 };
 
 #endif // ABSTRACTMODIFIER_H

@@ -33,11 +33,12 @@ void DrawTool::startDraw()
 void DrawTool::finishDraw()
 {
     isDrawing = false;
+    line->finishIncremental();
 }
 
 void DrawTool::addVertex()
 {
     Eigen::Vector3f v;
     v = Interface::view.getDrawVertexPosition(Mouse::x, Mouse::y);
-    line->addVertexfv(v);
+    line->addVertexf(v);
 }

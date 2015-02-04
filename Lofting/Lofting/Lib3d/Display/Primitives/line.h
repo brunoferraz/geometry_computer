@@ -7,15 +7,18 @@ class Line : public BasicGeometry
 {
 public:
     Line();
+
+    bool finished;
+
     void display();
     void displayObject();
 
     void configMaterial();
     void configRender();
 
-    void addVertexfv(Eigen::Vector3f v);
+    void addVertexf(Eigen::Vector3f v);
+    void addVertexf(float _x, float _y, float _z);
     void finishIncremental();
-
 };
 
 #endif // LINE_H

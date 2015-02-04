@@ -20,7 +20,6 @@ void TranslateTool::display()
 
 void TranslateTool::mousePress()
 {
-
     if(Mouse::mouse_left){
         SelectTool::mousePress();
     }else if(Mouse::mouse_middle){

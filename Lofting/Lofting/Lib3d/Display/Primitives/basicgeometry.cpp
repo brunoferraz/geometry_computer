@@ -48,7 +48,8 @@ void BasicGeometry::display()
 
 void BasicGeometry::displayObject()
 {
-    std::transform( P.facets_begin(), P.facets_end(), P.planes_begin(),Plane_from_facet());
+
+    std::transform( P.facets_begin(), P.facets_end(), P.planes_begin(),plane_from_facet);
     glBegin(GL_TRIANGLES);
         CGAL::set_ascii_mode( std::cout);
         float vertexCounter = 0;

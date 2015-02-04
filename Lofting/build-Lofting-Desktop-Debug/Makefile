@@ -70,7 +70,11 @@ SOURCES       = ../Lofting/main.cpp \
 		../Lofting/Lib3d/Tools/selectTool.cpp \
 		../Lofting/Lib3d/View/viewportortotop.cpp \
 		../Lofting/Lib3d/View/viewportortoleft.cpp \
-		../Lofting/Lib3d/Display/Primitives/line.cpp moc_mainwindow.cpp \
+		../Lofting/Lib3d/Display/Primitives/line.cpp \
+		../Lofting/Lib3d/Modifiers/abstractmodifier.cpp \
+		../Lofting/Lib3d/Tools/rotatetool.cpp \
+		../Lofting/Lib3d/Tools/scaletool.cpp \
+		../Lofting/Lib3d/Tools/lofttool.cpp moc_mainwindow.cpp \
 		moc_glcanvas.cpp \
 		moc_abstractobj.cpp \
 		moc_tetrahedron.cpp \
@@ -78,7 +82,8 @@ SOURCES       = ../Lofting/main.cpp \
 		moc_boundingbox.cpp \
 		moc_axis3d.cpp \
 		moc_basicuiobj.cpp \
-		moc_basicgeometry.cpp
+		moc_basicgeometry.cpp \
+		moc_lofttool.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		glcanvas.o \
@@ -105,6 +110,10 @@ OBJECTS       = main.o \
 		viewportortotop.o \
 		viewportortoleft.o \
 		line.o \
+		abstractmodifier.o \
+		rotatetool.o \
+		scaletool.o \
+		lofttool.o \
 		moc_mainwindow.o \
 		moc_glcanvas.o \
 		moc_abstractobj.o \
@@ -113,7 +122,8 @@ OBJECTS       = main.o \
 		moc_boundingbox.o \
 		moc_axis3d.o \
 		moc_basicuiobj.o \
-		moc_basicgeometry.o
+		moc_basicgeometry.o \
+		moc_lofttool.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -350,7 +360,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/InterfaceV41.0.0 || mkdir -p .tmp/InterfaceV41.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/InterfaceV41.0.0/ && $(COPY_FILE) --parents ../Lofting/mainwindow.h ../Lofting/glcanvas.h ../Lofting/Lib3d/View/viewportorto.h ../Lofting/Lib3d/View/viewport.h ../Lofting/Lib3d/Util/typecast.h ../Lofting/Lib3d/View/viewmanager.h ../Lofting/Lib3d/Tools/toolmanager.h ../Lofting/Lib3d/Display/abstractobj.h ../Lofting/Lib3d/interface.h ../Lofting/Lib3d/Tools/tool.h ../Lofting/Lib3d/Io/mouse.h ../Lofting/Lib3d/Display/Primitives/tetrahedron.h ../Lofting/Lib3d/Display/UiElements/grid.h ../Lofting/Lib3d/Display/UiElements/boundingbox.h ../Lofting/Lib3d/Display/UiElements/axis3d.h ../Lofting/Lib3d/Display/UiElements/basicuiobj.h ../Lofting/Lib3d/Tools/cameratool.h ../Lofting/Lib3d/Io/keyboard.h ../Lofting/Lib3d/Tools/drawtool.h ../Lofting/Lib3d/Tools/translatetool.h ../Lofting/Lib3d/Display/Primitives/basicgeometry.h ../Lofting/Lib3d/Tools/selectTool.h ../Lofting/Lib3d/View/viewportortotop.h ../Lofting/Lib3d/View/viewportortoleft.h ../Lofting/Lib3d/Display/Primitives/line.h .tmp/InterfaceV41.0.0/ && $(COPY_FILE) --parents ../Lofting/main.cpp ../Lofting/mainwindow.cpp ../Lofting/glcanvas.cpp ../Lofting/Lib3d/View/viewportorto.cpp ../Lofting/Lib3d/View/viewport.cpp ../Lofting/Lib3d/Util/typecast.cpp ../Lofting/Lib3d/View/viewmanager.cpp ../Lofting/Lib3d/Tools/toolmanager.cpp ../Lofting/Lib3d/Display/abstractobj.cpp ../Lofting/Lib3d/interface.cpp ../Lofting/Lib3d/Tools/tool.cpp ../Lofting/Lib3d/Io/mouse.cpp ../Lofting/Lib3d/Display/Primitives/tetrahedron.cpp ../Lofting/Lib3d/Display/UiElements/grid.cpp ../Lofting/Lib3d/Display/UiElements/boundingbox.cpp ../Lofting/Lib3d/Display/UiElements/axis3d.cpp ../Lofting/Lib3d/Display/UiElements/basicuiobj.cpp ../Lofting/Lib3d/Tools/cameratool.cpp ../Lofting/Lib3d/Io/keyboard.cpp ../Lofting/Lib3d/Tools/drawtool.cpp ../Lofting/Lib3d/Tools/translatetool.cpp ../Lofting/Lib3d/Display/Primitives/basicgeometry.cpp ../Lofting/Lib3d/Tools/selectTool.cpp ../Lofting/Lib3d/View/viewportortotop.cpp ../Lofting/Lib3d/View/viewportortoleft.cpp ../Lofting/Lib3d/Display/Primitives/line.cpp .tmp/InterfaceV41.0.0/ && $(COPY_FILE) --parents ../Lofting/mainwindow.ui .tmp/InterfaceV41.0.0/ && (cd `dirname .tmp/InterfaceV41.0.0` && $(TAR) InterfaceV41.0.0.tar InterfaceV41.0.0 && $(COMPRESS) InterfaceV41.0.0.tar) && $(MOVE) `dirname .tmp/InterfaceV41.0.0`/InterfaceV41.0.0.tar.gz . && $(DEL_FILE) -r .tmp/InterfaceV41.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/InterfaceV41.0.0/ && $(COPY_FILE) --parents ../Lofting/mainwindow.h ../Lofting/glcanvas.h ../Lofting/Lib3d/View/viewportorto.h ../Lofting/Lib3d/View/viewport.h ../Lofting/Lib3d/Util/typecast.h ../Lofting/Lib3d/View/viewmanager.h ../Lofting/Lib3d/Tools/toolmanager.h ../Lofting/Lib3d/Display/abstractobj.h ../Lofting/Lib3d/interface.h ../Lofting/Lib3d/Tools/tool.h ../Lofting/Lib3d/Io/mouse.h ../Lofting/Lib3d/Display/Primitives/tetrahedron.h ../Lofting/Lib3d/Display/UiElements/grid.h ../Lofting/Lib3d/Display/UiElements/boundingbox.h ../Lofting/Lib3d/Display/UiElements/axis3d.h ../Lofting/Lib3d/Display/UiElements/basicuiobj.h ../Lofting/Lib3d/Tools/cameratool.h ../Lofting/Lib3d/Io/keyboard.h ../Lofting/Lib3d/Tools/drawtool.h ../Lofting/Lib3d/Tools/translatetool.h ../Lofting/Lib3d/Display/Primitives/basicgeometry.h ../Lofting/Lib3d/Tools/selectTool.h ../Lofting/Lib3d/View/viewportortotop.h ../Lofting/Lib3d/View/viewportortoleft.h ../Lofting/Lib3d/Display/Primitives/line.h ../Lofting/Lib3d/Modifiers/abstractmodifier.h ../Lofting/Lib3d/Tools/rotatetool.h ../Lofting/Lib3d/Tools/scaletool.h ../Lofting/Lib3d/Tools/lofttool.h .tmp/InterfaceV41.0.0/ && $(COPY_FILE) --parents ../Lofting/main.cpp ../Lofting/mainwindow.cpp ../Lofting/glcanvas.cpp ../Lofting/Lib3d/View/viewportorto.cpp ../Lofting/Lib3d/View/viewport.cpp ../Lofting/Lib3d/Util/typecast.cpp ../Lofting/Lib3d/View/viewmanager.cpp ../Lofting/Lib3d/Tools/toolmanager.cpp ../Lofting/Lib3d/Display/abstractobj.cpp ../Lofting/Lib3d/interface.cpp ../Lofting/Lib3d/Tools/tool.cpp ../Lofting/Lib3d/Io/mouse.cpp ../Lofting/Lib3d/Display/Primitives/tetrahedron.cpp ../Lofting/Lib3d/Display/UiElements/grid.cpp ../Lofting/Lib3d/Display/UiElements/boundingbox.cpp ../Lofting/Lib3d/Display/UiElements/axis3d.cpp ../Lofting/Lib3d/Display/UiElements/basicuiobj.cpp ../Lofting/Lib3d/Tools/cameratool.cpp ../Lofting/Lib3d/Io/keyboard.cpp ../Lofting/Lib3d/Tools/drawtool.cpp ../Lofting/Lib3d/Tools/translatetool.cpp ../Lofting/Lib3d/Display/Primitives/basicgeometry.cpp ../Lofting/Lib3d/Tools/selectTool.cpp ../Lofting/Lib3d/View/viewportortotop.cpp ../Lofting/Lib3d/View/viewportortoleft.cpp ../Lofting/Lib3d/Display/Primitives/line.cpp ../Lofting/Lib3d/Modifiers/abstractmodifier.cpp ../Lofting/Lib3d/Tools/rotatetool.cpp ../Lofting/Lib3d/Tools/scaletool.cpp ../Lofting/Lib3d/Tools/lofttool.cpp .tmp/InterfaceV41.0.0/ && $(COPY_FILE) --parents ../Lofting/mainwindow.ui .tmp/InterfaceV41.0.0/ && (cd `dirname .tmp/InterfaceV41.0.0` && $(TAR) InterfaceV41.0.0.tar InterfaceV41.0.0 && $(COMPRESS) InterfaceV41.0.0.tar) && $(MOVE) `dirname .tmp/InterfaceV41.0.0`/InterfaceV41.0.0.tar.gz . && $(DEL_FILE) -r .tmp/InterfaceV41.0.0
 
 
 clean:compiler_clean 
@@ -373,9 +383,9 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_glcanvas.cpp moc_abstractobj.cpp moc_tetrahedron.cpp moc_grid.cpp moc_boundingbox.cpp moc_axis3d.cpp moc_basicuiobj.cpp moc_basicgeometry.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_glcanvas.cpp moc_abstractobj.cpp moc_tetrahedron.cpp moc_grid.cpp moc_boundingbox.cpp moc_axis3d.cpp moc_basicuiobj.cpp moc_basicgeometry.cpp moc_lofttool.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_glcanvas.cpp moc_abstractobj.cpp moc_tetrahedron.cpp moc_grid.cpp moc_boundingbox.cpp moc_axis3d.cpp moc_basicuiobj.cpp moc_basicgeometry.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_glcanvas.cpp moc_abstractobj.cpp moc_tetrahedron.cpp moc_grid.cpp moc_boundingbox.cpp moc_axis3d.cpp moc_basicuiobj.cpp moc_basicgeometry.cpp moc_lofttool.cpp
 moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qwidget.h \
@@ -489,6 +499,8 @@ moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtGui/qicon.h \
 		/usr/include/qt5/QtGui/QKeyEvent \
 		../Lofting/Lib3d/Io/keyboard.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
 		../Lofting/mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Lofting/mainwindow.h -o moc_mainwindow.cpp
 
@@ -1192,6 +1204,89 @@ moc_basicgeometry.cpp: ../Lofting/Lib3d/Display/abstractobj.h \
 		../Lofting/Lib3d/Display/Primitives/basicgeometry.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Lofting/Lib3d/Display/Primitives/basicgeometry.h -o moc_basicgeometry.cpp
 
+moc_lofttool.cpp: /usr/include/qt5/QtCore/QObject \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		../Lofting/Lib3d/Tools/tool.h \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		../Lofting/Lib3d/Display/abstractobj.h \
+		/usr/include/qt5/QtCore/QList \
+		../Lofting/Lib3d/Util/typecast.h \
+		../Lofting/Lib3d/Display/UiElements/axis3d.h \
+		../Lofting/Lib3d/Tools/lofttool.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Lofting/Lib3d/Tools/lofttool.h -o moc_lofttool.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all: ui_mainwindow.h
@@ -1448,6 +1543,8 @@ main.o: ../Lofting/main.cpp ../Lofting/mainwindow.h \
 		/usr/include/qt5/QtGui/qicon.h \
 		/usr/include/qt5/QtGui/QKeyEvent \
 		../Lofting/Lib3d/Io/keyboard.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
 		/usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
 		/usr/include/qt5/QtCore/qcoreapplication.h \
@@ -1571,6 +1668,8 @@ mainwindow.o: ../Lofting/mainwindow.cpp ../Lofting/mainwindow.h \
 		/usr/include/qt5/QtGui/qicon.h \
 		/usr/include/qt5/QtGui/QKeyEvent \
 		../Lofting/Lib3d/Io/keyboard.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
 		ui_mainwindow.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QAction \
@@ -1583,8 +1682,9 @@ mainwindow.o: ../Lofting/mainwindow.cpp ../Lofting/mainwindow.h \
 		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
 		/usr/include/qt5/QtGui/qguiapplication.h \
 		/usr/include/qt5/QtGui/qinputmethod.h \
-		/usr/include/qt5/QtWidgets/QButtonGroup \
-		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
 		/usr/include/qt5/QtWidgets/QHeaderView \
 		/usr/include/qt5/QtWidgets/qheaderview.h \
 		/usr/include/qt5/QtWidgets/qabstractitemview.h \
@@ -1602,6 +1702,9 @@ mainwindow.o: ../Lofting/mainwindow.cpp ../Lofting/mainwindow.h \
 		/usr/include/qt5/QtWidgets/qstyle.h \
 		/usr/include/qt5/QtWidgets/qtabbar.h \
 		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
 		/usr/include/qt5/QtWidgets/QWidget \
 		../Lofting/glcanvas.h \
 		/usr/include/qt5/QtOpenGL/QGLWidget \
@@ -1619,7 +1722,19 @@ mainwindow.o: ../Lofting/mainwindow.cpp ../Lofting/mainwindow.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
 		/usr/include/qt5/QtGui/QMouseEvent \
-		/usr/include/qt5/QtCore/QDebug
+		/usr/include/qt5/QtCore/QDebug \
+		../Lofting/Lib3d/interface.h \
+		../Lofting/Lib3d/View/viewmanager.h \
+		../Lofting/Lib3d/View/viewport.h \
+		/usr/include/qt5/QtCore/QString \
+		../Lofting/Lib3d/View/viewportorto.h \
+		/usr/include/qt5/QtCore/QList \
+		../Lofting/Lib3d/Tools/toolmanager.h \
+		../Lofting/Lib3d/Display/abstractobj.h \
+		/usr/include/qt5/QtCore/QObject \
+		../Lofting/Lib3d/Util/typecast.h \
+		../Lofting/Lib3d/Tools/tool.h \
+		../Lofting/Lib3d/Display/UiElements/axis3d.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Lofting/mainwindow.cpp
 
 glcanvas.o: ../Lofting/glcanvas.cpp ../Lofting/glcanvas.h \
@@ -1762,8 +1877,51 @@ glcanvas.o: ../Lofting/glcanvas.cpp ../Lofting/glcanvas.h \
 		../Lofting/Lib3d/View/viewportorto.h \
 		../Lofting/Lib3d/Tools/toolmanager.h \
 		../Lofting/Lib3d/Tools/tool.h \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget \
 		../Lofting/Lib3d/Display/UiElements/grid.h \
-		../Lofting/Lib3d/Display/UiElements/basicuiobj.h
+		../Lofting/Lib3d/Display/UiElements/basicuiobj.h \
+		../Lofting/Lib3d/Display/Primitives/line.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o glcanvas.o ../Lofting/glcanvas.cpp
 
 viewportorto.o: ../Lofting/Lib3d/View/viewportorto.cpp ../Lofting/Lib3d/View/viewportorto.h \
@@ -2099,6 +2257,9 @@ toolmanager.o: ../Lofting/Lib3d/Tools/toolmanager.cpp ../Lofting/Lib3d/Tools/too
 		../Lofting/Lib3d/Display/UiElements/boundingbox.h \
 		/usr/include/qt5/QtCore/QString \
 		../Lofting/Lib3d/Tools/translatetool.h \
+		../Lofting/Lib3d/Tools/rotatetool.h \
+		../Lofting/Lib3d/Tools/scaletool.h \
+		../Lofting/Lib3d/Tools/lofttool.h \
 		../Lofting/Lib3d/interface.h \
 		../Lofting/Lib3d/View/viewmanager.h \
 		../Lofting/Lib3d/View/viewport.h \
@@ -2153,6 +2314,48 @@ toolmanager.o: ../Lofting/Lib3d/Tools/toolmanager.cpp ../Lofting/Lib3d/Tools/too
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget \
 		../Lofting/Lib3d/Io/mouse.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o toolmanager.o ../Lofting/Lib3d/Tools/toolmanager.cpp
 
@@ -2291,7 +2494,49 @@ abstractobj.o: ../Lofting/Lib3d/Display/abstractobj.cpp ../Lofting/Lib3d/Display
 		/usr/include/qt5/QtOpenGL/qtopenglglobal.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
-		/usr/include/qt5/QtGui/QMouseEvent
+		/usr/include/qt5/QtGui/QMouseEvent \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o abstractobj.o ../Lofting/Lib3d/Display/abstractobj.cpp
 
 interface.o: ../Lofting/Lib3d/interface.cpp ../Lofting/Lib3d/interface.h \
@@ -2430,6 +2675,48 @@ interface.o: ../Lofting/Lib3d/interface.cpp ../Lofting/Lib3d/interface.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget \
 		../Lofting/Lib3d/Io/keyboard.h \
 		/usr/include/qt5/QtGui/QKeyEvent \
 		../Lofting/Lib3d/Io/mouse.h
@@ -2653,7 +2940,49 @@ mouse.o: ../Lofting/Lib3d/Io/mouse.cpp ../Lofting/Lib3d/Io/mouse.h \
 		/usr/include/qt5/QtOpenGL/qglcolormap.h \
 		/usr/include/qt5/QtOpenGL/qtopenglglobal.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
-		/usr/include/qt5/QtGui/qsurfaceformat.h
+		/usr/include/qt5/QtGui/qsurfaceformat.h \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mouse.o ../Lofting/Lib3d/Io/mouse.cpp
 
 tetrahedron.o: ../Lofting/Lib3d/Display/Primitives/tetrahedron.cpp ../Lofting/Lib3d/Display/Primitives/tetrahedron.h \
@@ -3039,7 +3368,49 @@ axis3d.o: ../Lofting/Lib3d/Display/UiElements/axis3d.cpp ../Lofting/Lib3d/Displa
 		/usr/include/qt5/QtOpenGL/qtopenglglobal.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
-		/usr/include/qt5/QtGui/QMouseEvent
+		/usr/include/qt5/QtGui/QMouseEvent \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o axis3d.o ../Lofting/Lib3d/Display/UiElements/axis3d.cpp
 
 basicuiobj.o: ../Lofting/Lib3d/Display/UiElements/basicuiobj.cpp ../Lofting/Lib3d/Display/UiElements/basicuiobj.h \
@@ -3260,7 +3631,49 @@ cameratool.o: ../Lofting/Lib3d/Tools/cameratool.cpp ../Lofting/Lib3d/Tools/camer
 		/usr/include/qt5/QtOpenGL/qglcolormap.h \
 		/usr/include/qt5/QtOpenGL/qtopenglglobal.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
-		/usr/include/qt5/QtGui/qsurfaceformat.h
+		/usr/include/qt5/QtGui/qsurfaceformat.h \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cameratool.o ../Lofting/Lib3d/Tools/cameratool.cpp
 
 keyboard.o: ../Lofting/Lib3d/Io/keyboard.cpp ../Lofting/Lib3d/Io/keyboard.h \
@@ -3400,7 +3813,49 @@ keyboard.o: ../Lofting/Lib3d/Io/keyboard.cpp ../Lofting/Lib3d/Io/keyboard.h \
 		/usr/include/qt5/QtOpenGL/qtopenglglobal.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
-		/usr/include/qt5/QtGui/QMouseEvent
+		/usr/include/qt5/QtGui/QMouseEvent \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o keyboard.o ../Lofting/Lib3d/Io/keyboard.cpp
 
 drawtool.o: ../Lofting/Lib3d/Tools/drawtool.cpp ../Lofting/Lib3d/Tools/drawtool.h \
@@ -3543,6 +3998,48 @@ drawtool.o: ../Lofting/Lib3d/Tools/drawtool.cpp ../Lofting/Lib3d/Tools/drawtool.
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget \
 		../Lofting/Lib3d/Io/mouse.h \
 		../Lofting/Lib3d/Display/Primitives/tetrahedron.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o drawtool.o ../Lofting/Lib3d/Tools/drawtool.cpp
@@ -3685,6 +4182,48 @@ translatetool.o: ../Lofting/Lib3d/Tools/translatetool.cpp ../Lofting/Lib3d/Tools
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
 		/usr/include/qt5/QtGui/QMouseEvent \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget \
 		../Lofting/Lib3d/Io/mouse.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o translatetool.o ../Lofting/Lib3d/Tools/translatetool.cpp
 
@@ -3825,7 +4364,49 @@ basicgeometry.o: ../Lofting/Lib3d/Display/Primitives/basicgeometry.cpp ../Loftin
 		/usr/include/qt5/QtOpenGL/qtopenglglobal.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
 		/usr/include/qt5/QtGui/qsurfaceformat.h \
-		/usr/include/qt5/QtGui/QMouseEvent
+		/usr/include/qt5/QtGui/QMouseEvent \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o basicgeometry.o ../Lofting/Lib3d/Display/Primitives/basicgeometry.cpp
 
 selectTool.o: ../Lofting/Lib3d/Tools/selectTool.cpp ../Lofting/Lib3d/Tools/selectTool.h \
@@ -3965,7 +4546,49 @@ selectTool.o: ../Lofting/Lib3d/Tools/selectTool.cpp ../Lofting/Lib3d/Tools/selec
 		/usr/include/qt5/QtOpenGL/qglcolormap.h \
 		/usr/include/qt5/QtOpenGL/qtopenglglobal.h \
 		/usr/include/qt5/QtGui/QSurfaceFormat \
-		/usr/include/qt5/QtGui/qsurfaceformat.h
+		/usr/include/qt5/QtGui/qsurfaceformat.h \
+		ui_mainwindow.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QCheckBox \
+		/usr/include/qt5/QtWidgets/qcheckbox.h \
+		/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QMainWindow \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/qpushbutton.h \
+		/usr/include/qt5/QtWidgets/QTabWidget \
+		/usr/include/qt5/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o selectTool.o ../Lofting/Lib3d/Tools/selectTool.cpp
 
 viewportortotop.o: ../Lofting/Lib3d/View/viewportortotop.cpp ../Lofting/Lib3d/View/viewportortotop.h \
@@ -4213,6 +4836,258 @@ line.o: ../Lofting/Lib3d/Display/Primitives/line.cpp ../Lofting/Lib3d/Display/Pr
 		/usr/include/qt5/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o line.o ../Lofting/Lib3d/Display/Primitives/line.cpp
 
+abstractmodifier.o: ../Lofting/Lib3d/Modifiers/abstractmodifier.cpp ../Lofting/Lib3d/Modifiers/abstractmodifier.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o abstractmodifier.o ../Lofting/Lib3d/Modifiers/abstractmodifier.cpp
+
+rotatetool.o: ../Lofting/Lib3d/Tools/rotatetool.cpp ../Lofting/Lib3d/Tools/rotatetool.h \
+		../Lofting/Lib3d/Tools/tool.h \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		../Lofting/Lib3d/Display/abstractobj.h \
+		/usr/include/qt5/QtCore/QObject \
+		/usr/include/qt5/QtCore/QList \
+		../Lofting/Lib3d/Util/typecast.h \
+		../Lofting/Lib3d/Display/UiElements/axis3d.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rotatetool.o ../Lofting/Lib3d/Tools/rotatetool.cpp
+
+scaletool.o: ../Lofting/Lib3d/Tools/scaletool.cpp ../Lofting/Lib3d/Tools/scaletool.h \
+		../Lofting/Lib3d/Tools/tool.h \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		../Lofting/Lib3d/Display/abstractobj.h \
+		/usr/include/qt5/QtCore/QObject \
+		/usr/include/qt5/QtCore/QList \
+		../Lofting/Lib3d/Util/typecast.h \
+		../Lofting/Lib3d/Display/UiElements/axis3d.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o scaletool.o ../Lofting/Lib3d/Tools/scaletool.cpp
+
+lofttool.o: ../Lofting/Lib3d/Tools/lofttool.cpp ../Lofting/Lib3d/Tools/lofttool.h \
+		/usr/include/qt5/QtCore/QObject \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		../Lofting/Lib3d/Tools/tool.h \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		../Lofting/Lib3d/Display/abstractobj.h \
+		/usr/include/qt5/QtCore/QList \
+		../Lofting/Lib3d/Util/typecast.h \
+		../Lofting/Lib3d/Display/UiElements/axis3d.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lofttool.o ../Lofting/Lib3d/Tools/lofttool.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
@@ -4239,6 +5114,9 @@ moc_basicuiobj.o: moc_basicuiobj.cpp
 
 moc_basicgeometry.o: moc_basicgeometry.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_basicgeometry.o moc_basicgeometry.cpp
+
+moc_lofttool.o: moc_lofttool.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_lofttool.o moc_lofttool.cpp
 
 ####### Install
 
