@@ -1,19 +1,23 @@
 #ifndef LOFTTOOL_H
 #define LOFTTOOL_H
 
-#include <QObject>
 #include <Tools/tool.h>
+#include <Tools/selectTool.h>
+#include <QList>
+#include <Display/abstractobj.h>
 
-class LoftTool : public Tool
+class LoftTool : public SelectTool
 {
-    Q_OBJECT
 public:
-    explicit LoftTool(QObject *parent = 0);
+    LoftTool();
 
+    QList<AbstractObj *> listShapes;
+    AbstractObj *path;
+
+    void mousePress();
+    void processShapes();
 signals:
-
-public slots:
-
+    void applyClicked();
 };
 
 #endif // LOFTTOOL_H

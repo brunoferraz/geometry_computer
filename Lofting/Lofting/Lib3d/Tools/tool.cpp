@@ -2,6 +2,7 @@
 
 Tool::Tool()
 {
+
 }
 
 void Tool::mouseOver()

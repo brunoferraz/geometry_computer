@@ -13,6 +13,7 @@
 
 ToolManager::ToolManager()
 {
+    hasSelected = false;
 
 }
 
@@ -23,7 +24,6 @@ void ToolManager::setTool(const int i)
 
 void ToolManager::start()
 {
-    hasSelected = false;
     list.push_back(new SelectTool());
     list.push_back(new CameraTool());
     list.push_back(new DrawTool());

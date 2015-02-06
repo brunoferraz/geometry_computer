@@ -1,12 +1,16 @@
 #ifndef TOOL_H
 #define TOOL_H
+
+#include <QObject>
 #include <QDebug>
 #include <Display/abstractobj.h>
 #include <Display/UiElements/axis3d.h>
 #include <QList>
 
+
 class Tool
 {
+
 public:
     Tool();
     static int const SELECT     = 0;
