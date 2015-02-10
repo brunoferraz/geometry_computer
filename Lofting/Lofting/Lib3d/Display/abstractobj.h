@@ -49,6 +49,12 @@ public:
 
     virtual void setPos(float _x, float _y, float _z);
     virtual void setPos(Eigen::Vector3f v);
+    inline virtual Eigen::Vector3f getPos(){
+        Eigen::Vector3f v;
+        v<< this->getX(), this->getY(), this->getZ();
+        return v;
+    }
+
     float getX();
     float getY();
     float getZ();

@@ -39,5 +39,45 @@ void LoftTool::applyClicked()
 
 void LoftTool::processShapes()
 {
-    BasicGeometry g;
+    BasicGeometry *g = new BasicGeometry();
+   // CGAL::is_valid(g.P);
+    //translate begin shape to start path
+    listShapes.at(0)->setPos(path->vertexList.at(0));
+    //translate end shape to end path.
+    listShapes.at(listShapes.length()-1)->setPos(path->vertexList.at(path->vertexList.length()-1));
+    //distribute shapes between begin and end along path
+    //adjust shapes rotation based on slope along path
+
+    //get too consecutive shapes
+    int a = 0;
+    int b = a+1;
+    AbstractObj *A = listShapes.at(a);
+    AbstractObj *B = listShapes.at(b);
+
+    int i = 0;
+    int j = 0;
+
+    Eigen::Vector3f A1 = A->vertexList.at(i);
+    //Eigen::Vector3f A2 = A->vertexList.at(i + 1);
+    Eigen::Vector3f B1 = B->vertexList.at(j);
+    Eigen::Vector3f B2 = B->vertexList.at(j + 1);
+
+    Point_3 p1(A1(0), A1(1), A1(2));
+    Point_3 p2(B1(0), B1(1), B1(2));
+    Point_3 p3(B2(0), B2(1), B2(2));
+
+//    Halfedge_handle h =
+    *g->P.make_triangle(p1, p2, p3);
+    //create facets and pass to cgal
+
+    //A1 B1 B2; A1 B2 A2.
+    //Ai Bi Bi+1; Ai Bi+1 Ai+1
+    //If there isnt Bi + 1, Try Ai+1
+    //If there isnt Ai + 1. End Loop
+
+    //Get 2 next Shapes.
+
+    Interface::addChild(*g);
+
+    Interface::canvas->update();
 }
