@@ -26,7 +26,7 @@ GLcanvas::GLcanvas(QWidget *parent) :
     //Interface::addChild(*b);
 
     Line *l = new Line();
-    l->addVertexf(-1,0,0.5);
+    l->addVertexf(-1,0,1);
     l->addVertexf(-1,0.5,-1);
     l->addVertexf(-1,1,0);
     l->finishIncremental();

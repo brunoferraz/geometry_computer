@@ -23,6 +23,7 @@ public:
 
     QList<AbstractObj *>    displayList;
     QList<Eigen::Vector3f>  vertexList;
+    QList<Eigen::Vector4f>  vertexList4f;
 
     GLboolean stateLighting[1];
 
@@ -54,7 +55,17 @@ public:
         v<< this->getX(), this->getY(), this->getZ();
         return v;
     }
-
+    inline virtual QList<Eigen::Vector4f>getVertexList4f(){
+        if(vertexList.length() > 0){
+            vertexList4f.clear();
+            for(int i = 0; i < vertexList.length(); i++){
+                Eigen::Vector4f v;
+                v << vertexList.at(i)(0), vertexList.at(i)(1), vertexList.at(i)(2), 1;
+                vertexList4f.push_back(v);
+            }
+        }
+        return vertexList4f;
+    }
     float getX();
     float getY();
     float getZ();

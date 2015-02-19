@@ -23,7 +23,6 @@ void AbstractObj::display()
         glVertex3fv(vertexList.at(i).data());
     }
     glEnd();
-
 }
 
 void AbstractObj::selectObj()

@@ -48,7 +48,6 @@ void BasicGeometry::display()
 
 void BasicGeometry::displayObject()
 {
-
     std::transform( P.facets_begin(), P.facets_end(), P.planes_begin(),plane_from_facet);
     glBegin(GL_TRIANGLES);
         CGAL::set_ascii_mode( std::cout);
@@ -68,6 +67,7 @@ void BasicGeometry::displayObject()
                 Point_3 *p = &j->vertex()->point();
                 glVertex3f(p->x(), p->y(), p->z());
                 vertexCounter++;
+//                std::cout << p->x() << " " << p->y() << " " << p->z()  << std::endl;
             } while ( ++j != i->facet_begin());
         }
     glEnd();

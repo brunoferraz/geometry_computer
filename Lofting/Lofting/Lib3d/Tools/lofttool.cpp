@@ -2,6 +2,7 @@
 #include <interface.h>
 #include <QPushButton>
 #include <Display/Primitives/basicgeometry.h>
+#include <Display/Primitives/tetrahedron.h>
 LoftTool::LoftTool()
 {
     Interface::canvas->parentWidget()->connect(
@@ -43,6 +44,7 @@ void LoftTool::processShapes()
    // CGAL::is_valid(g.P);
     //translate begin shape to start path
     listShapes.at(0)->setPos(path->vertexList.at(0));
+//    listShapes.at(0)->setPos(-1, -1, -1);
     //translate end shape to end path.
     listShapes.at(listShapes.length()-1)->setPos(path->vertexList.at(path->vertexList.length()-1));
     //distribute shapes between begin and end along path
@@ -50,24 +52,45 @@ void LoftTool::processShapes()
 
     //get too consecutive shapes
     int a = 0;
-    int b = a+1;
+    int b = 1;
     AbstractObj *A = listShapes.at(a);
     AbstractObj *B = listShapes.at(b);
 
     int i = 0;
     int j = 0;
 
-    Eigen::Vector3f A1 = A->vertexList.at(i);
-    //Eigen::Vector3f A2 = A->vertexList.at(i + 1);
-    Eigen::Vector3f B1 = B->vertexList.at(j);
-    Eigen::Vector3f B2 = B->vertexList.at(j + 1);
+    A->getVertexList4f();
+    B->getVertexList4f();
+
+    Eigen::Vector4f A1 = A->transform * A->vertexList4f.at(i);
+    Eigen::Vector4f A2 = A->transform * A->vertexList4f.at(i + 1);
+
+    Eigen::Vector4f B1 = B->transform * B->vertexList4f.at(j);
+    Eigen::Vector4f B2 = B->transform * B->vertexList4f.at(j + 1);
+
+    std::cout << A->transform << endl;
+    std::cout << A1.transpose() << std::endl;
+    std::cout << A2.transpose() << std::endl;
+    std::cout << B1.transpose() << std::endl;
+    std::cout << B2.transpose() << std::endl;
 
     Point_3 p1(A1(0), A1(1), A1(2));
     Point_3 p2(B1(0), B1(1), B1(2));
     Point_3 p3(B2(0), B2(1), B2(2));
 
-//    Halfedge_handle h =
-    *g->P.make_triangle(p1, p2, p3);
+//    Point_3 p1(0,   -0.5,   0.75);
+//    Point_3 p2(0,   -0,     1);
+//    Point_3 p3(0,   0,      0);
+
+//    Point_3 p4(0, 1, 0);
+
+//    std::cout << p1.x() << " || " << p1.y() << " || " << p1.z() << std::endl;
+//    std::cout << p2.x() << " || " << p2.y() << " || " << p2.z() << std::endl;
+//    std::cout << p3.x() << " || " << p3.y() << " || " << p3.z() << std::endl;
+
+    Build_triangle<Polyhedron::HalfedgeDS> triangle(p1, p2, p3);
+    g->P.delegate(triangle);
+
     //create facets and pass to cgal
 
     //A1 B1 B2; A1 B2 A2.
@@ -78,6 +101,12 @@ void LoftTool::processShapes()
     //Get 2 next Shapes.
 
     Interface::addChild(*g);
+
+    Tetrahedron *t = new Tetrahedron();
+    t->setPos(0, 0, 0);
+    t->color << 1, 0, 1, 1;
+    t->shininess = 20;
+    //Interface::addChild(*t);
 
     Interface::canvas->update();
 }

@@ -8,6 +8,7 @@
 
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/HalfedgeDS_vector.h>
+#include <CGAL/HalfedgeDS_default.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Point_3.h>
 #include <CGAL/Plane_3.h>
@@ -17,7 +18,11 @@
 typedef CGAL::Simple_cartesian<double>                  Kernel;
 typedef Kernel::Point_3                                 Point_3;
 typedef Kernel::Plane_3                                 Plane_3;
-typedef CGAL::Polyhedron_3<Kernel>                      Polyhedron;
+typedef CGAL::HalfedgeDS_default<Kernel>                HDS;
+typedef CGAL::Polyhedron_traits_3<Kernel>               Traits;
+
+//typedef CGAL::Polyhedron_3<Traits, HDS>                 Polyhedron;
+
 typedef Polyhedron::Facet_iterator                      Facet_iterator;
 typedef Polyhedron::Facet_handle                        Facet_handle;
 typedef Polyhedron::Halfedge_around_facet_circulator    Halfedge_facet_circulator;
