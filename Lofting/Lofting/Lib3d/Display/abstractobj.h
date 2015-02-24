@@ -50,6 +50,10 @@ public:
 
     virtual void setPos(float _x, float _y, float _z);
     virtual void setPos(Eigen::Vector3f v);
+
+    virtual void rotate(float angle, float _x, float _y, float _z);
+    virtual void rotate(Eigen::Vector4f v);
+
     inline virtual Eigen::Vector3f getPos(){
         Eigen::Vector3f v;
         v<< this->getX(), this->getY(), this->getZ();

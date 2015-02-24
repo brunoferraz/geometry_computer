@@ -110,6 +110,46 @@ void AbstractObj::setPos(Eigen::Vector3f v)
     transform(2, 3) = v(2);
 }
 
+void AbstractObj::rotate(float angle, float _x, float _y, float _z)
+{
+    //calculate angle XY
+    float PI = 3.14159265;
+    float angleXY = std::atan2(_y,_x) * 180/ PI;
+    Eigen::Matrix4f mXY;
+    mXY<<   cos(angleXY), -sin(angleXY),    0,  0,
+            sin(angleXY), cos(angleXY),     0,  0,
+                       0,            0,     1,  0,
+                       0,            0,     0,  1;
+    //rotate -AngleXY in Z
+    transform = transform * mXY;
+    //calculate angle ZX
+    float angleZX = std::atan2(_z,_x) * 180/ PI;
+    Eigen::Matrix4f mZX;
+    mZX <<  cos(angleZX),   0,  sin(angleZX),   0,
+                       0,   1,             0,   0,
+           -sin(angleZX),   0,  cos(angleZX),   0,
+                       0,   0,             0,   1;
+    //rotate -AngleZX in Y
+    transform = transform * mZX;
+    //now the object is lie on X
+    Eigen::Matrix4f mX;
+    mX <<   1,          0,          0,      0,
+            0,  cos(angle), -sin(angle),    0,
+            0,  sin(angle),  cos(angle),    0,
+            0,          0,          0,      1;
+    //rotate in X the angle parameter
+    transform = transform * mX;
+    //rotate AngleZX in Y
+    transform = transform * mZX.inverse();
+    //rotate AngleXY in Z
+    transform = transform * mXY.inverse();
+}
+
+void AbstractObj::rotate(Eigen::Vector4f v)
+{
+
+}
+
 float AbstractObj::getX()
 {
     return transform(0, 3);

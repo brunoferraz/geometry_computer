@@ -23,7 +23,7 @@ GLcanvas::GLcanvas(QWidget *parent) :
     b->setPos(0.5, 0, 0.5);
     b->color << 1, 0.5, 0, 1;
     b->shininess = 20;
-    //Interface::addChild(*b);
+    Interface::addChild(*b);
 
     Line *l = new Line();
     l->addVertexf(-1,0,1);
@@ -42,8 +42,9 @@ GLcanvas::GLcanvas(QWidget *parent) :
     Interface::addChild(*l);
 
     l = new Line();
-    l->addVertexf(-0.5,0,0);
-    l->addVertexf(0.5,0,0);
+    l->addVertexf(-1.5,0,0);
+    l->addVertexf(0,0,-0.5);
+    l->addVertexf(1.5,0,0);
     l->finishIncremental();
     l->color << 1, 0, 1, 1;
     Interface::addChild(*l);
@@ -60,6 +61,7 @@ void GLcanvas::initializeGL()
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_TEXTURE_2D);
+    glDisable(GL_CULL_FACE);
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_LINE_SMOOTH);
 

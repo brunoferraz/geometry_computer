@@ -12,6 +12,8 @@ public:
 
     Tool *currentTool;
     void setTool(int const i);
+    int _tool;
+    inline int getTool() {return _tool;}
     QList<Tool *> list;
 
     AbstractObj *target;

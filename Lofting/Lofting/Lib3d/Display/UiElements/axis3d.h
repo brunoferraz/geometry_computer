@@ -24,6 +24,10 @@ public:
     void mouseRelease();
     void mouseMove();
 
+    void translateAxis();
+    void rotateAxis();
+    void scaleAxis();
+
     void selectObj();
     void deselectObj();
 

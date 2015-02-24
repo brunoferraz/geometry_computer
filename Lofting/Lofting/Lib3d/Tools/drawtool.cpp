@@ -26,6 +26,7 @@ void DrawTool::startDraw()
     isDrawing = true;
     Line *l = new Line();
     line = l;
+    l->color << 1, 0, 0, 1;
     Interface::addChild(*l);
     addVertex();
 }

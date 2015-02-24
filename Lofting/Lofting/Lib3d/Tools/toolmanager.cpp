@@ -19,6 +19,7 @@ ToolManager::ToolManager()
 
 void ToolManager::setTool(const int i)
 {
+    _tool = i;
     currentTool = list.at(i);
 }
 

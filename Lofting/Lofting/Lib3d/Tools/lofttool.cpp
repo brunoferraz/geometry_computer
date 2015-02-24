@@ -51,56 +51,57 @@ void LoftTool::processShapes()
     //adjust shapes rotation based on slope along path
 
     //get too consecutive shapes
-    int a = 0;
-    int b = 1;
-    AbstractObj *A = listShapes.at(a);
-    AbstractObj *B = listShapes.at(b);
+    for(int a=0; a< listShapes.length()-1; a++){
+        //int a = 0;
+        int b = a +1;
+        AbstractObj *A = listShapes.at(a);
+        AbstractObj *B = listShapes.at(b);
 
-    int i = 0;
-    int j = 0;
+        //int i = 0;
 
-    A->getVertexList4f();
-    B->getVertexList4f();
+        for(int i; i < A->vertexList.length()-1; i ++){
+        int j = i;
 
-    Eigen::Vector4f A1 = A->transform * A->vertexList4f.at(i);
-    Eigen::Vector4f A2 = A->transform * A->vertexList4f.at(i + 1);
+            A->getVertexList4f();
+            B->getVertexList4f();
 
-    Eigen::Vector4f B1 = B->transform * B->vertexList4f.at(j);
-    Eigen::Vector4f B2 = B->transform * B->vertexList4f.at(j + 1);
+            Eigen::Vector4f A1 = A->transform * A->vertexList4f.at(i);
+            Eigen::Vector4f A2 = A->transform * A->vertexList4f.at(i + 1);
 
-    std::cout << A->transform << endl;
-    std::cout << A1.transpose() << std::endl;
-    std::cout << A2.transpose() << std::endl;
-    std::cout << B1.transpose() << std::endl;
-    std::cout << B2.transpose() << std::endl;
+            Eigen::Vector4f B1 = B->transform * B->vertexList4f.at(j);
+            Eigen::Vector4f B2 = B->transform * B->vertexList4f.at(j + 1);
 
-    Point_3 p1(A1(0), A1(1), A1(2));
-    Point_3 p2(B1(0), B1(1), B1(2));
-    Point_3 p3(B2(0), B2(1), B2(2));
+//            std::cout << A->transform << endl;
+//            std::cout << A1.transpose() << std::endl;
+//            std::cout << A2.transpose() << std::endl;
+//            std::cout << B1.transpose() << std::endl;
+//            std::cout << B2.transpose() << std::endl;
 
-//    Point_3 p1(0,   -0.5,   0.75);
-//    Point_3 p2(0,   -0,     1);
-//    Point_3 p3(0,   0,      0);
+            Point_3 p1(A1(0), A1(1), A1(2));
+            Point_3 p2(B1(0), B1(1), B1(2));
+            Point_3 p3(B2(0), B2(1), B2(2));
+            Point_3 p4(A2(0), A2(1), A2(2));
 
-//    Point_3 p4(0, 1, 0);
 
-//    std::cout << p1.x() << " || " << p1.y() << " || " << p1.z() << std::endl;
-//    std::cout << p2.x() << " || " << p2.y() << " || " << p2.z() << std::endl;
-//    std::cout << p3.x() << " || " << p3.y() << " || " << p3.z() << std::endl;
+            Build_triangle<Polyhedron::HalfedgeDS> triangle(p1, p2, p3);
+            g->P.delegate(triangle);
+            Build_triangle<Polyhedron::HalfedgeDS> triangle2(p1, p3, p4);
+            g->P.delegate(triangle2);
 
-    Build_triangle<Polyhedron::HalfedgeDS> triangle(p1, p2, p3);
-    g->P.delegate(triangle);
+        }
+        //create facets and pass to cgal
 
-    //create facets and pass to cgal
+        //A1 B1 B2; A1 B2 A2.
+        //Ai Bi Bi+1; Ai Bi+1 Ai+1
+        //If there isnt Bi + 1, Try Ai+1
+        //If there isnt Ai + 1. End Loop
 
-    //A1 B1 B2; A1 B2 A2.
-    //Ai Bi Bi+1; Ai Bi+1 Ai+1
-    //If there isnt Bi + 1, Try Ai+1
-    //If there isnt Ai + 1. End Loop
-
-    //Get 2 next Shapes.
+        //Get 2 next Shapes.
+    }
 
     Interface::addChild(*g);
+    g->color << 1, 0.5, 0, 1;
+    g->shininess = 20;
 
     Tetrahedron *t = new Tetrahedron();
     t->setPos(0, 0, 0);

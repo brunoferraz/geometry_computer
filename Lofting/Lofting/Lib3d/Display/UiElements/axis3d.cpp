@@ -69,20 +69,11 @@ void Axis::display()
     }else{
         color = lastColor;
     }
-    glPushMatrix();
-    glRotatef(angle, angleVec(0), angleVec(1), angleVec(2));
-        glBegin(GL_LINES);
-            glColor3fv(color.data());
-            glVertex3f(0,0,0);
-            glVertex3f(1, 0, 0);
-        glEnd();
-        glPushMatrix();
-        glTranslatef(1, 0, 0);
-        glRotatef(90, 0, 1, 0);
-            glColor3fv(color.data());
-            glutSolidCone(0.05, 0.2, 8, 2);
-        glPopMatrix();
-        glPopMatrix();
+    if(Interface::tool.getTool() == Tool::TRANSLATE){
+        translateAxis();
+    }else if(Interface::tool.getTool() == Tool::ROTATE){
+        translateAxis();
+    }
     desconfigRender();
 }
 
@@ -113,6 +104,44 @@ void Axis::mouseRelease()
 void Axis::mouseMove()
 {
     qDebug() << "movendo";
+}
+
+void Axis::translateAxis()
+{
+    glPushMatrix();
+    glRotatef(angle, angleVec(0), angleVec(1), angleVec(2));
+        glBegin(GL_LINES);
+            glColor3fv(color.data());
+            glVertex3f(0,0,0);
+            glVertex3f(1, 0, 0);
+        glEnd();
+        glPushMatrix();
+        glTranslatef(1, 0, 0);
+        glRotatef(90, 0, 1, 0);
+            glColor3fv(color.data());
+            glutSolidCone(0.05, 0.2, 8, 2);
+        glPopMatrix();
+        glPopMatrix();
+}
+
+void Axis::rotateAxis()
+{
+    glPushMatrix();
+    glLoadIdentity();
+    glRotatef(angle, angleVec(0), angleVec(1), angleVec(2));
+    glBegin(GL_LINES);
+        glColor3fv(color.data());
+        for(int i = 0; i < 360; i+= 1){
+            glVertex3f(sin(i)/2, cos(i)/2, 0);
+        }
+    glEnd;
+    glPopMatrix();
+    glPopMatrix();
+}
+
+void Axis::scaleAxis()
+{
+
 }
 
 void Axis::selectObj()

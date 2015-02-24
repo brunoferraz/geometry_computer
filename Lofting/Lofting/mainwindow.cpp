@@ -60,9 +60,9 @@ void MainWindow::basicButtonClicked(int index)
     case 5:
         Interface::tool.setTool(Tool::TRANSLATE);
     break;
-//    case 6:
-//        Interface::tool.setTool(Tool::ROTATE);
-//    break;
+    case 6:
+        Interface::tool.setTool(Tool::ROTATE);
+    break;
 //    case 7:
 //        Interface::tool.setTool(Tool::SCALE);
 //    break;

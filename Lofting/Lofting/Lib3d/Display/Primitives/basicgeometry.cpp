@@ -62,6 +62,7 @@ void BasicGeometry::displayObject()
             vn << fnormal[0],fnormal[1],fnormal[2];
             vn.normalize();
             glNormal3fv (vn.data());
+//            std::cout << vn.transpose() << std::endl;
             CGAL_assertion( CGAL::circulator_size(j) >= 3 );
             do {
                 Point_3 *p = &j->vertex()->point();

@@ -47,8 +47,8 @@ void Interface::setCurrentSelectList(QList<AbstractObj *> &l)
 void Interface::start(int w, int h)
 {
     view.setSize(w, h);
-//    view.setViewPort(ViewManager::PERSPECTIVE);
-    view.setViewPort(ViewManager::TOP);
+    view.setViewPort(ViewManager::PERSPECTIVE);
+//    view.setViewPort(ViewManager::TOP);
 //    view.setViewPort(ViewManager::LEFT);
     tool.start();
     setCurrentDisplayList(displayList);
@@ -95,7 +95,6 @@ void Interface::mouseMove()
 
 void Interface::mouseOver()
 {
-
     if(Mouse::overIndex < currentSelectList->length()){
         currentSelectList->at(Mouse::overIndex)->mouseOver();
     }
@@ -104,7 +103,6 @@ void Interface::mouseOver()
 
 void Interface::mouseOut()
 {
-
     if(Mouse::lastOverIndex < currentSelectList->length()){
         currentSelectList->at(Mouse::lastOverIndex)->mouseOut();
     }
