@@ -13,41 +13,84 @@ GLcanvas::GLcanvas(QWidget *parent) :
     Grid *grid = new Grid(this);
     Interface::addUiChild(*grid);
 
-    Tetrahedron *a = new Tetrahedron(this);
-    a->setPos(0, 0, 0);
-    a->color << 1, 0, 1, 1;
-    a->shininess = 20;
-    //Interface::addChild(*a);
+//    Tetrahedron *a = new Tetrahedron(this);
+//    a->setPos(0, 0, 0);
+//    a->color << 1, 0, 1, 1;
+//    a->shininess = 20;
+//    //Interface::addChild(*a);
 
-    Tetrahedron *b = new Tetrahedron(this);
-    b->setPos(0.5, 0, 0.5);
-    b->color << 1, 0.5, 0, 1;
-    b->shininess = 20;
-    Interface::addChild(*b);
+//    Tetrahedron *b = new Tetrahedron(this);
+//    b->setPos(0.5, 0, 0.5);
+//    b->color << 1, 0.5, 0, 1;
+//    b->shininess = 20;
+//    Interface::addChild(*b);
 
-    Line *l = new Line();
-    l->addVertexf(-1,0,1);
-    l->addVertexf(-1,0.5,-1);
-    l->addVertexf(-1,1,0);
-    l->finishIncremental();
-    l->color << 1, 0, 0, 1;
-    Interface::addChild(*l);
+//    Line *l = new Line();
+//    l->addVertexf(-1,0,1);
+//    l->addVertexf(-1,0.5,-1);
+//    l->addVertexf(-1,1,0);
+//    l->finishIncremental();
+//    l->color << 1, 0, 0, 1;
+//    Interface::addChild(*l);
 
-    l = new Line();
-    l->addVertexf(1,0,0.5);
-    l->addVertexf(1,0.5,-1);
-    l->addVertexf(1,1,0);
-    l->finishIncremental();
-    l->color << 1, 1, 0, 1;
-    Interface::addChild(*l);
+//    l = new Line();
+//    l->addVertexf(1,0,0.5);
+//    l->addVertexf(1,0.5,-1);
+//    l->addVertexf(1,1,0);
+//    l->finishIncremental();
+//    l->color << 1, 1, 0, 1;
+//    Interface::addChild(*l);
 
-    l = new Line();
-    l->addVertexf(-1.5,0,0);
-    l->addVertexf(0,0,-0.5);
-    l->addVertexf(1.5,0,0);
-    l->finishIncremental();
-    l->color << 1, 0, 1, 1;
-    Interface::addChild(*l);
+//    l = new Line();
+//    l->addVertexf(-1.5,0,0);
+//    l->addVertexf(0,0,-0.5);
+//    l->addVertexf(1.5,0,0);
+//    l->finishIncremental();
+//    l->color << 1, 0, 1, 1;
+//    Interface::addChild(*l);
+
+
+
+      Line *l = new Line();
+      for(float i = -1; i < 1; i+= 0.8){
+        l->addVertexf(-1, 0, i);
+      }
+      l->finishIncremental();
+      l->color << 1, 0, 0, 1;
+      Interface::addChild(*l);
+
+      l = new Line();
+      for(float i = -1; i < 1; i+= 0.1){
+         l->addVertexf(-0.4, 0, i);
+      }
+      l->finishIncremental();
+      l->color << 1, 0, 0, 1;
+      Interface::addChild(*l);
+
+      l = new Line();
+      for(float i = -1; i < 1; i+= 0.1){
+         l->addVertexf(0.4, 0, i);
+      }
+      l->finishIncremental();
+      l->color << 1, 0, 0, 1;
+      Interface::addChild(*l);
+
+      l = new Line();
+      for(float i = -1; i < 1; i+= 0.8){
+         l->addVertexf(1, 0, i);
+      }
+      l->finishIncremental();
+      l->color << 1, 0, 0, 1;
+      Interface::addChild(*l);
+
+      l = new Line();
+      l->addVertexf(-0.5, 0, 0);
+//      l->addVertexf(-0.25, 0, 0.75);
+//      l->addVertexf(0.3, 0, 0.75);
+      l->addVertexf(0.5, 0, 0);
+      l->finishIncremental();
+      l->color << 1, 0, 0, 1;
+      Interface::addChild(*l);
 
 }
 void GLcanvas::initializeGL()
@@ -62,6 +105,7 @@ void GLcanvas::initializeGL()
     glShadeModel(GL_SMOOTH);
     glEnable(GL_TEXTURE_2D);
     glDisable(GL_CULL_FACE);
+//    glEnable(GL_CULL_FACE);
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_LINE_SMOOTH);
 

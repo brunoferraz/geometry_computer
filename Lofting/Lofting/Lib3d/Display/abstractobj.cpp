@@ -112,42 +112,58 @@ void AbstractObj::setPos(Eigen::Vector3f v)
 
 void AbstractObj::rotate(float angle, float _x, float _y, float _z)
 {
-    //calculate angle XY
-    float PI = 3.14159265;
-    float angleXY = std::atan2(_y,_x) * 180/ PI;
-    Eigen::Matrix4f mXY;
-    mXY<<   cos(angleXY), -sin(angleXY),    0,  0,
-            sin(angleXY), cos(angleXY),     0,  0,
-                       0,            0,     1,  0,
-                       0,            0,     0,  1;
-    //rotate -AngleXY in Z
-    transform = transform * mXY;
-    //calculate angle ZX
-    float angleZX = std::atan2(_z,_x) * 180/ PI;
-    Eigen::Matrix4f mZX;
-    mZX <<  cos(angleZX),   0,  sin(angleZX),   0,
-                       0,   1,             0,   0,
-           -sin(angleZX),   0,  cos(angleZX),   0,
-                       0,   0,             0,   1;
-    //rotate -AngleZX in Y
-    transform = transform * mZX;
-    //now the object is lie on X
-    Eigen::Matrix4f mX;
-    mX <<   1,          0,          0,      0,
-            0,  cos(angle), -sin(angle),    0,
-            0,  sin(angle),  cos(angle),    0,
-            0,          0,          0,      1;
-    //rotate in X the angle parameter
-    transform = transform * mX;
-    //rotate AngleZX in Y
-    transform = transform * mZX.inverse();
-    //rotate AngleXY in Z
-    transform = transform * mXY.inverse();
+    //Change global transform matrix
+    Eigen::Matrix3f S;
+    S << 0,     -_z,     _y,
+         _z,     0,      -_x,
+         -_y,    _x,      0;
+    Eigen::Vector3f u;
+    u << _x, _y , _z;
+    u.normalize();
+
+    Eigen::Matrix3f uut;
+    uut = u * u.transpose();
+    Eigen::Matrix3f I;
+    I <<    1,  0,  0,
+            0,  1,  0,
+            0,  0,  1;
+
+    Eigen::Matrix3f M;
+    M = uut + cos(angle) * (I - uut) + sin(angle) * S;
+    Eigen::Matrix4f R;
+    R << M(0, 0),   M(0, 1),    M(0, 2),    0,
+         M(1, 0),   M(1, 1),    M(1, 2),    0,
+         M(2, 0),   M(2, 1),    M(2, 2),    0,
+               0,         0,          0,    1;
+    transform = transform * R;
 }
 
 void AbstractObj::rotate(Eigen::Vector4f v)
 {
+    //Change global transform matrix
+    Eigen::Matrix3f S;
+    S << 0,     -v(3),     v(2),
+         v(3),     0,      -v(1),
+         -v(2),    v(1),      0;
+    Eigen::Vector3f u;
+    u << v(1), v(2) , v(3);
+    u.normalize();
 
+    Eigen::Matrix3f uut;
+    uut = u * u.transpose();
+    Eigen::Matrix3f I;
+    I <<    1,  0,  0,
+            0,  1,  0,
+            0,  0,  1;
+
+    Eigen::Matrix3f M;
+    M = uut + cos(v(0)) * (I - uut) + sin(v(0)) * S;
+    Eigen::Matrix4f R;
+    R << M(0, 0),   M(0, 1),    M(0, 2),    0,
+         M(1, 0),   M(1, 1),    M(1, 2),    0,
+         M(2, 0),   M(2, 1),    M(2, 2),    0,
+               0,         0,          0,    1;
+    transform = transform * R;
 }
 
 float AbstractObj::getX()

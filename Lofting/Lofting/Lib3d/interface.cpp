@@ -47,8 +47,8 @@ void Interface::setCurrentSelectList(QList<AbstractObj *> &l)
 void Interface::start(int w, int h)
 {
     view.setSize(w, h);
-    view.setViewPort(ViewManager::PERSPECTIVE);
-//    view.setViewPort(ViewManager::TOP);
+//    view.setViewPort(ViewManager::PERSPECTIVE);
+    view.setViewPort(ViewManager::TOP);
 //    view.setViewPort(ViewManager::LEFT);
     tool.start();
     setCurrentDisplayList(displayList);

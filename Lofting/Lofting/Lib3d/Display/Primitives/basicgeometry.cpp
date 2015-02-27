@@ -50,6 +50,7 @@ void BasicGeometry::displayObject()
 {
     std::transform( P.facets_begin(), P.facets_end(), P.planes_begin(),plane_from_facet);
     glBegin(GL_TRIANGLES);
+//    glBegin(GL_LINES);
         CGAL::set_ascii_mode( std::cout);
         float vertexCounter = 0;
         for ( Facet_iterator i = P.facets_begin(); i != P.facets_end(); ++i) {

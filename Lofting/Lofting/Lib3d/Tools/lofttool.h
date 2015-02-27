@@ -59,6 +59,8 @@ public:
 
     void mousePress();
     void processShapes();
+    void processShapes2();
+    AbstractObj* changeSide(AbstractObj *A, AbstractObj *B, bool &side);
 signals:
     void applyClicked();
 };
